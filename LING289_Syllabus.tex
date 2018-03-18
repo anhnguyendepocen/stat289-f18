@@ -1,0 +1,230 @@
+\documentclass[12pt]{article}
+
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{top=0.7in, bottom=1in, left=0.7in, right=0.7in, marginparsep=4pt, marginparwidth=1in}
+
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancyplain}
+\fancyhf{}
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% \setromanfont [Ligatures={Common}, Numbers={OldStyle}, Variant=01,
+%  BoldFont={LinLibertine_RB.otf},
+%  ItalicFont={LinLibertine_RI.otf},
+%  BoldItalicFont={LinLibertine_RBI.otf}
+%  ]{LinLibertine_R.otf}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+
+\usepackage{xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+
+\setromanfont{YaleNew}
+
+\begin{document}
+
+\begin{center}
+{\bf MATH/LING 289: Introduction to Data Science, Fall 2018} \\
+Tuesday, Thursday 13:30-14:45 \quad PURH G13\\
+\end{center}
+
+\bigskip
+
+\noindent
+\begin{tabular}{ l l }
+{\bf Instructor:} &  {\bf Taylor Arnold} \\
+E-mail: & \href{mailto:tarnold2@richmond.edu}{tarnold2@richmond.edu} \\
+Office: & Jepson Hall, Rm 218 \\
+Office hours: & to be determined \\
+Course Website: & \url{https://statsmaths.github.io/stat289-f18}
+\end{tabular}
+
+\vspace{0.5cm}
+
+\textbf{Overview:} \vspace{6pt}
+
+Data science is an interdisciplinary field concerned with extracting knowledge
+from data and communicating those results to some public audience. Data
+science needs to be learned \textit{by doing} data science. There are
+no short-cuts and the process cannot be learned by simply working our way
+methodically through a textbook of disconnected topics.\\
+
+Therefore, this course will be taught using a problem-based learning model. As
+a class, we will be addressing an open ended research question and learning
+various skills that will assist our inquiry. Both individually and in small
+groups, students will take responsibility for particular subtasks that drive
+our research forward. At the end of the semester students will have acquired
+a toolkit of methods, and the knowledge of how to use them in practice, to
+address important social, cultural, and scientific questions with data-driven
+techniques.\\
+
+We will make heavy use of computing throughout the semester, but \textit{no
+prior programming experience is required}. Also note that this course has a
+MATH designation because statistics is currently housed in the mathematics
+department. The topics of this course do \textit{not} fall within the
+traditional disciplinary boundaries of mathematics.\\
+
+\textbf{Research Question:} \vspace{6pt}
+
+Our object of study for this semester (Fall 2018) concerns the edit history
+of pages on Wikipedia. Our research for the semester will be guided by several
+related questions:
+
+\begin{itemize}\setlength\itemsep{0em}
+\item How is knowledge being represented through the works of an anonymous,
+decentralized collective of users connected across the internet?
+\item What role does memory play in the representation of current and
+semi-current events?
+\item What kinds of knowledge are privileged, or taken for granted, by
+citation patterns on the interent?
+\item How do cultural and linguistic factors play into the structure of
+Wikipedia pages (by looking at pages across different languages)?
+\item What role do images and other media play in the structure and
+development of encyclopedic pages? has this changed over time?
+\end{itemize}
+
+These questions can be studied from a number of disciplinary perspectives.
+For example, one might draw on methods from from one or more of: psychology,
+sociology, linguistics, political science, American studies, media studies,
+and critical theory. In this course we will see how the methods of data
+science provide a new set of tools that are able to engage with, rather than
+against, these disciplinary techniques while opening the possibility of
+producing knowledge through the study of large unstructured data sets.
+
+\clearpage
+
+\textbf{Grades:} \vspace{6pt}
+
+Your final grade will consist of three elements, weighted as follows:
+
+\begin{itemize}[noitemsep,topsep=0pt]
+\item Class Participation, 20\%
+\item Short Paper (1000-1500 words), 20\%
+\item Final Paper (2000-2500 words), 60\%
+\end{itemize}
+
+Note that both papers will also include graphics and models constructed from
+our data. Course expectations and community standards will be discussed,
+developed and distributed in the first week of the course. This will include
+policies for class participation, attendance, and late work.
+
+\vspace{0.5cm}
+
+\textbf{Weekly Topics:} \vspace{6pt}
+
+Typically, we will spend Tuesdays discussing the course readings and
+introducing new concepts. Thursday will be spent working on coding exercises
+and small group discussions.
+
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 1: Introduction, What is Data Science, Set-up}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1: ``Data Analysis and Statistics: An Expository Overview."
+J. W. Tukey and M. B. Wilk. \textit{AFIPS Conference Proceedings}. Volume 29,
+1966.
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 2: Keywords in Context and Basic Search}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 3: Corpus Construction}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 4: Term-Frequency Matrices}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 5: Dimensionality Reduction}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 6: Network Analysis}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 7: Token Annotations}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 8: Phrase-level Linguistic Annotations}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 9: Topic Models and Document Clustering}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{Week 10: Image Processing}
+
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=!,labelindent=5pt,itemindent=-70pt]
+\item Reading \#1:
+\end{itemize}
+
+\vspace{12pt}
+
+
+
+\end{document}
+
+
+
+
+
