@@ -1,1 +1,1 @@
-# stat289
+Introduction to Data Science
