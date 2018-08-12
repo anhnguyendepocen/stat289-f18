@@ -12,7 +12,8 @@
 \renewcommand{\headrulewidth}{0pt}
 \pagestyle{fancyplain}
 \fancyhf{}
-\cfoot{\thepage\ of \pageref{LastPage}}
+\lfoot{As of 2018-08-12}
+\rfoot{page \thepage\ of \pageref{LastPage}}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
@@ -35,7 +36,7 @@
 
 \begin{center}
 {\bf MATH/LING 289: Introduction to Data Science, Fall 2018} \\
-Tuesday, Thursday 13:30-14:45 \quad JPSN G28\\
+Tuesday, Thursday 12:00-13:15 \quad MRC LL1\\
 \end{center}
 
 \bigskip
@@ -45,7 +46,6 @@ Tuesday, Thursday 13:30-14:45 \quad JPSN G28\\
 {\bf Instructor:} &  {\bf Taylor Arnold} \\
 E-mail: & \href{mailto:tarnold2@richmond.edu}{tarnold2@richmond.edu} \\
 Office: & Jepson Hall, Rm 218 \\
-Office hours: & to be determined \\
 Course Website: & \url{https://statsmaths.github.io/stat289-f18}
 \end{tabular}
 
@@ -72,114 +72,140 @@ We will make heavy use of computing throughout the semester, but \textit{no
 prior programming experience is required}. Also note that this course has a
 MATH designation because statistics is currently housed in the mathematics
 department. The topics of this course, however, do not fall within the
-traditional disciplinary boundaries of mathematics.\\
+traditional disciplinary boundaries of mathematics.
 
-\textbf{Research Question:} \vspace{6pt}
+\bigskip
 
-Our object of study for this semester (Fall 2018) concerns the edit history
-of pages on Wikipedia. Our research for the semester will be guided by drawing
-on questions such as:
+\textbf{Course Website:} \vspace{6pt}
 
-\begin{itemize}\setlength\itemsep{0em}
-\item How is knowledge being represented through the works of an anonymous,
-decentralized collective of users connected across the internet?
-\item What role does memory play in the representation of current and
-semi-current events?
-\item What kinds of knowledge are privileged, or taken for granted, by
-citation patterns on the interent?
-\item How do cultural and linguistic factors play into the structure of
-Wikipedia pages (by looking at pages across different languages)?
-\item What role do images and other media play in the structure and
-development of encyclopedic pages? Has this changed over time?
-\end{itemize}
+All of the materials and assignments for the course will be posted
+on the class website:
+\begin{quote}
+\url{https://statsmaths.github.io/stat289-f18}
+\end{quote}
+The website contains notes, assignment details, and
+supplemental materials. At the end of the semester, this version of
+the course will be archived and available for your reference.
 
-These questions can be studied from a number of disciplinary perspectives.
-For example, one might draw on methods from from one or more of: psychology,
-sociology, linguistics, political science, American studies, media studies,
-and critical theory. In this course we will see how the methods of data
-science provide a new set of tools that are able to engage with, rather than
-against, these disciplinary techniques while opening the possibility of
-producing knowledge through the study of large unstructured data sets.
+\bigskip
+
+\textbf{GitHub:} \vspace{6pt}
+
+All of your work for this semester will be submitted through GitHub,
+the same platform that hosts our website. You'll need to set up a free
+account, which we will cover during the week of class.
+
+\bigskip
+
+\textbf{Labs:} \vspace{6pt}
+
+During most class meetings in the first half of the semester will be spent
+working together through IPython notebooks. I'll call these `labs' for the 
+purpose of this syllabus. Each lab consists of a set of questions that must be
+answered with either small snippets of code or short descriptive answers. We
+will largely work on these together, but often the final bit will need to be
+finished on your own. Solutions must be uploaded to your GitHub page prior to
+the start of the next class meeting. Labs are graded on a Pass/Fail scale.
 
 \clearpage
 
-\textbf{Grades:} \vspace{6pt}
+\textbf{Exams:} \vspace{6pt}
 
-Your final grade will consist of three elements, weighted as follows:
+There will be three take-home midterm exams given throughout the semester.
+These are open notes and resources, though you must complete them on your
+own. The scheduled dates for the exams are (all dates are Thursdays):
+\begin{itemize}\setlength\itemsep{0em}
+\item \textbf{2018-09-20}
+\item \textbf{2018-10-18}
+\item \textbf{2018-11-15}
+\end{itemize}
+The exam will be made available starting at the normal start of class on the
+date above; you will have 5 days (starting at the normal class start time on
+Thursday and continuing through start of class on the following Tuesday) to
+complete it. The course has no final exam.
 
-\begin{itemize}[noitemsep,topsep=6pt]
-\item Class Participation, 20\%
-\item Project Prospectus, 20\%
-\item Final Project and Presentation, 60\%
+\bigskip
+
+\textbf{Final Project:} \vspace{6pt}
+
+The final project for this class will consist of either a small software
+library or a written data analysis report. More details will follow about the
+specific requirements and deadlines.
+
+\bigskip
+
+\textbf{Final Grades:} \vspace{6pt}
+
+The final grade will be determined by weighting the labs and projects as
+follows:
+\begin{itemize}\setlength\itemsep{0em}
+\item \textbf{Labs and Participation}: 5\%
+\item \textbf{Midterm Exams}: 45\% (15\% each)
+\item \textbf{Final Project}: 50\%
+\end{itemize}
+To pass the course, you must also miss no more than four class meetings.
+Attendance requires that you arrive on-time, complete any out of class
+assignments for the day, and fully engage with the course material.
+Failing to fulfil these attendance requirements may result in a failing
+grade of `V' or a reduction to your final course average at the instructor's
+sole discretion.
+
+\bigskip
+
+\textbf{Class Policies:} \vspace{6pt}
+
+The following class policies address some of the most common
+questions and concerns that students have. If anything is
+unclear, please feel free to contact me for clarification at
+any point in the semester.
+
+\begin{itemize}\setlength\itemsep{0em}
+\item \textbf{Academic honesty:} Cheating and plagiarism are grave scholarly
+offenses and potential grounds
+for expulsion; they are also a major barrier to your intellectual development.
+You are expected to familiarize yourself with the entirety of the
+University of Richmond’s Honor Code. If you are confused or unsure about
+appropriate citation protocol or any other aspect of the Honor code,
+please consult me before turning in an assignment.
+\item \textbf{Special approval:} If you have special approval forms for extra
+time on exams or any other circumstances I should know about, please speak
+with me as early as possible so that we can best accommodate your needs.
+\item \textbf{Late work:} You are expected to submit all work on-time. Late 
+work will be accepted after the due date with a full letter grade deduction for
+each 24 hour period it is late (rounded up).
+\item \textbf{Attendance:} You are expected to both attend and participate in most
+class meetings. If you must be absent due to illness or other pressing
+need, please let me know by email as soon as possible. A habit of arriving
+late, failing to participate, or failing to accomplish any out of class assignments
+is considered equivalent to an absence.
+\item \textbf{Make-up work:} In instances where students have a valid excuse for
+missing an assessment, please get in touch with me within 24-hours of missing
+class to make alternative arrangements.
+\item \textbf{Class conduct:} During class I expect you to refrain from checking
+email, being on phones, or working on assignments for other classes.
+\item \textbf{Computers:} I except you to bring a working laptop with Python
+3 installed. If this poses a challenge, please speak with me at the 
+start of the semester or as new problems arise.
+\item \textbf{Office hours}: Rather than fixed weekly office hours, I will 
+provide blocks of open times to meet with me particularly focused around
+exams and project due dates. If you find me in my office, poke your head in
+and I am usually happy to meet on the spot. Otherwise, please email me to make
+an appointment so that we can chat. Please note that appointments should
+be booked at least 24 hours ahead of time.
+\item \textbf{Email:} I will also answer questions by email (it can, in fact,
+be much faster than scheduling an appointment for small issues). During the
+week, I aim to respond within 24 hours, with emails sent over the weekend
+responded to by Monday morning. If your question involves code, please attach
+your current lab or report as that will expedite my answering your question(s).
 \end{itemize}
 
-\vspace{3pt}
+\bigskip
 
-Course expectations and community standards will be discussed, developed and
-distributed in the first week of the course. This will include policies for
-class participation, attendance, and late work.
+\textbf{Notice:} \vspace{6pt}
 
-\vspace{0.5cm}
-
-\textbf{Texts:} \vspace{6pt}
-
-Readings for the course, which will help us address and position our research,
-will be pulled from open access journal articles and the following required
-text:
-
-\begin{quote}
-Jemielniak, Dariusz, 2014. \textit{Common Knowledge?: An Ethnography
-of Wikipedia.} Stanford University Press.
-\end{quote}
-
-As a reference for technical topics, I will make frequent reference to:
-
-\begin{quote}
-Wickham, Hadley and Grolemund, Garrett, 2016.
-\textit{R for Data Science: Import, Tidy, Transform, Visualize, and Model
-Data.} O'Reilly Media.
-\end{quote}
-
-This second text as it is available online
-(\url{http://r4ds.had.co.nz/}) for free and in its entirety.
-
-\vspace{0.5cm}
-
-\textbf{Computing:} \vspace{6pt}
-
-We will use the \textbf{R} programming environment throughout the
-semester. It is freely available for all major operating systems. No prior
-programming experience is assumed or required for this course. We will install
-the required software on your computer during the first week of the course
-(alternatively, R is installed in several computer labs across campus) and
-cover all of the required coding skills throughout the semester.
-
-\vspace{0.5cm}
-
-\textbf{Data Science Methods:} \vspace{6pt}
-
-Given the project-oriented aspect of this course, the exact schedule of topics
-will depend on and adapt to the natural course of our investigation. Methods
-that may be covered during the semester include:
-
-\begin{itemize}[noitemsep,topsep=6pt]
-\item data structures for storing data
-\item visualization techniques for exploratory analysis
-\item web scrapping
-\item document summarization
-\item sentence parsing
-\item named entity recognition (NER)
-\item automated geocoding
-\item dimensionality reduction
-\item topic models
-\item network analysis
-\item image processing
-\end{itemize}
-
-\vspace{3pt}
-
-Strong consideration will be given to the specific of interests and
-motivations of students enrolled in the course.
+I reserve the right to modify this syllabus, with advanced warning, throughout
+the semester. If necessary, I will email the class list and post an updated
+version of the document on the course website.
 
 \end{document}
 
