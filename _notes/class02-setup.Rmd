@@ -73,42 +73,10 @@ Python code.
 
 ![](../assets/img/anaconda03.jpeg)
 
-Now, navigate to where you saved the first IPython notebook and open it.
+Now, once you save a Jupyter Notebook, navigate to where you saved the file and
+open it:
 
 ![](../assets/img/anaconda03.jpeg)
-
-Start working through the first set of instructions.
-
-## Install Modules
-
-Anaconda Python comes with many of the modules needed for general purpose 
-data science work. We need to install several others to help us work with 
-text and image data. Some of these can be a pain, so that is why I have
-dedicated today to getting these issues sorted out.
-
-Return to the Anaconda Navigator application and click on Environments on the
-left-hand side. Now, on the right, click on the pull-down menu that says 
-"Installed" to select "All" and search for the package "keras". You should
-see one search result pop up. Select this and then click Apply at the bottom.
-This will install several packages and may take a bit of time.
-
-Once the installation is complete return to your IPython notebook and make 
-sure that you can load keras. Note that it may give a warning; this is okay.
-
-Next, repeat for the following libraries:
-
-- spacy
-- gensim
-- opencv (make sure you select the package just called "opencv")
-
-I just tested all of these on my computer and they worked fine. If you run into
-an issues please let me and everyone else know today.
-
-
-
-
-
-
 
 
 

@@ -17,7 +17,7 @@ methodically through a textbook of disconnected topics.
 Therefore, this course will be taught using a problem-based learning model. As
 a class, we will be addressing an open ended research question and discussing
 various methods that will assist our inquiry. Both individually and in small
-groups, students will take responsibility for particular subtasks that drive
+groups, students will learn how to address subtasks that drive
 our research forward. At the end of the semester students will have acquired
 a toolkit of methods, and the knowledge of how to use them in practice, to
 address important social, cultural, and scientific questions with data-driven
@@ -31,17 +31,28 @@ traditional disciplinary boundaries of mathematics.
 
 ## Object of Study
 
-This semester our specific object of study concerns moving images, with
-a particular focus on television. This corresponds with a project I am
-currently working called *Distant Viewing TV*:
+Our object of study for this semester (Fall 2018) concerns the edit history
+of pages on Wikipedia. Our research for the semester will be guided by drawing
+on questions such as:
 
-> [https://www.distantviewing.org/](https://www.distantviewing.org/)
+- How is knowledge being represented through the works of an anonymous,
+decentralized collective of users connected across the internet?
+- What role does memory play in the representation of current and
+semi-current events?
+- What kinds of knowledge are privileged, or taken for granted, by
+citation patterns on the internet?
+- How do cultural and linguistic factors play into the structure of
+Wikipedia pages (by looking at pages across different languages)?
+- What role do images and other media play in the structure and
+development of encyclopedic pages? Has this changed over time?
 
-I chose this topic because (1) its currently on my mind, (2) it involves a mix
-of text and image analysis, and (3) we recently won a grant that amongst other
-things can be used to hire student researchers. So, if you find the topic
-interesting there are possibilities for further work on it in the spring
-semester and over the upcoming summer.
+These questions can be studied from a number of disciplinary perspectives.
+For example, one might draw on methods from from one or more of: psychology,
+sociology, linguistics, political science, American studies, media studies,
+and critical theory. In this course we will see how the methods of data
+science provide a new set of tools that are able to engage with, rather than
+against, these disciplinary techniques while opening the possibility of
+producing knowledge through the study of large unstructured data sets.
 
 # Syllabus
 
@@ -62,47 +73,34 @@ the course will be archived and available for your reference.
 
 ## Labs
 
-Most class meetings will have an assignment called a 'lab' associated with it.
-These consist of a set of questions that must be answered with either small
-snippets of code or short descriptive answers. Often we will start these during
-class, though they may sometimes be just for your own practice. Your solutions
-must be uploaded to your GitHub page prior to the start of the next class
-meeting. Labs are graded on a Pass/Fail scale.
+Throughout the semester, we will work through a collection of Jupyter
+notebooks. These notebooks contain both code and text. We will have two types
+of files:
 
-We will start with the first lab during the next class meeting.
+- **tutorials:** These tend to be shorter files that introduce a new
+programming or data science topic. There will typically be a number of
+exercises to fill in at the end of the notebook.
+- **projects:** These will be longer, and more open ended, than 
+tutorial files. They may ask you to chain together a number of concepts in 
+order to solve a data science task.
 
-## Exams
-
-There will be three take-home midterm exams given throughout the semester.
-These are open notes and resources, though you must complete them on your
-own. The scheduled dates for the exams are (all dates are Thursdays):
-
-- **2018-09-20**
-- **2018-10-18**
-- **2018-11-15**
-
-The exam will be made available starting at the normal start of class on the
-date above; you will have 5 days (starting at the normal class start time on
-Thursday and continuing through start of class on the following Tuesday) to
-complete it. The course has no final exam.
-
-## Data Projects
-
-The ultimate aim of the course is to teach you how to *apply* statistics
-to real-world questions. To this end, you will complete three data-oriented
-projects during the course of the semester. The first two (called 'midterm'
-projects) will be shorter in length and consist in you collecting your own
-data. Your final project will be longer and will involve producing a tutorial
-to introduce a new concept in statistical modeling to your classmates.
+We will typically start both types of notebooks in class. You are expected to
+complete them prior to the next class meeting (some projects may extend over
+multiple class periods; these will be clearly marked with a due date). In some
+cases you may be allowed or required to work in groups on an assignment; please
+make sure that all group members remember to submit the notebooks within their
+own GitHub repositories to receive proper credit.
 
 ## Final Grades
 
-The final grade will be determined by weighting the labs and projects as
-follows:
+Your final grade will be determined by your work on the tutorial and project 
+notebooks. The tutorials are graded based only on completion; you will get a
+pass/fail mark for each one. Each project will be labelled with a total number
+of points and you will receive a grade indicating how many of these points have
+been earned. The final grade will be determined by weighting these as follows:
 
-- **Labs and Participation**: 5%
-- **Midterm Exams**: 45% (15% each)
-- **Final Project**: 50%
+- **Tutorials**: 25%
+- **Projects**: 75%
 
 To pass the course, you must also miss no more than four class meetings.
 Attendance requires that you arrive on-time, complete any out of class
@@ -128,9 +126,15 @@ please consult me before turning in an assignment.
 - **Special approval:** If you have special approval forms for extra
 time on exams or any other circumstances I should know about, please speak
 with me as early as possible so that we can best accommodate your needs.
-- **Late work:** You are expected to submit all work on-time. Late reports
-will be accepted after the due date with a full letter grade deduction for each
-24 hour period it is late (rounded up).
+- **Collaboration:** You are always allowed to collaborate on Tutorial
+notebooks, though you should physically type out all of your own solutions
+unless I have given you instructions otherwise. For projects, I expect you to
+work on your own with no external assistance unless the instructions indicate
+that the project is to be worked on in groups. Groups will be established or
+assigned ahead of time in class.
+- **Late work:** You are expected to submit all work on-time. Late 
+work will be accepted after the due date with a point deduction for each day
+late (rounded up for each 24-hour period).
 - **Attendance:** You are expected to both attend and participate in most
 class meetings. If you must be absent due to illness or other pressing
 need, please let me know by email as soon as possible. A habit of arriving
@@ -158,7 +162,6 @@ your current lab or report as that will expedite my answering your question(s).
 These address some of the most common questions and concerns that
 students have. If anything is unclear, please feel free to contact
 me for clarification at any point in the semester.
-
 
 ## For next time
 
