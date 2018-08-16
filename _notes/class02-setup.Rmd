@@ -28,13 +28,13 @@ Next, follow this link and accept the invitation:
 Assuming you have a valid GitHub account, this will set up a repository where
 all of your projects for this semester should be posted.
 
-## First Notebook
+## Create Workspace
 
-Now, download the first lab assignment here:
-
-- [Lab 02: Introduction]()
-
-Then, navigate to wherever you saved the file and open it in the Jupyter 
+Now, either download the entire repository as a zip file
+or, if you use git, clone the repository. Either way, put the
+results somewhere on your computer that you can easily find
+and save. You'll put all of the materials from this class 
+inside that folder.
 
 # Setting up Python
 
