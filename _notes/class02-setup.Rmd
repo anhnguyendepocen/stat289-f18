@@ -23,7 +23,7 @@ to make this public at some point:
 
 Next, follow this link and accept the invitation:
 
-- [https://classroom.github.com/a/](https://classroom.github.com/a/)
+- [https://classroom.github.com/a/](https://classroom.github.com/a/wPpmwCzM)
 
 Assuming you have a valid GitHub account, this will set up a repository where
 all of your projects for this semester should be posted.
