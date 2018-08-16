@@ -65,7 +65,7 @@ course website.
 All of the materials and assignments for the course will be posted
 on the class website:
 
-> [https://statsmaths.github.io/stat209-f18](https://statsmaths.github.io/stat209-f18)
+> [https://statsmaths.github.io/stat289-f18](https://statsmaths.github.io/stat289-f18)
 
 The website contains notes, assignment details, and
 supplemental materials. At the end of the semester, this version of
