@@ -1,21 +1,175 @@
----
-layout: default
----
 
-<div>
-<h1>STAT/MATH/LING 289: Introduction to Data Science</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Course website for STAT 365/665: Data Mining and Machine Learning">
+  <meta name="author" content="Taylor B. Arnold">
+  <title>Taylor Arnold - STAT 289</title>
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <!-- Google fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- favicon -->
+  <link rel="alternate" type="application/rss+xml" title="Taylor Arnold - Assistant Professor of Statistics, University of Richmond" href="/stat289-f18/feed.xml" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/stat289-f18/assets/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/stat289-f18/assets/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/stat289-f18/assets/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/stat289-f18/assets/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/stat289-f18/assets/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/stat289-f18/assets/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/stat289-f18/assets/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/stat289-f18/assets/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/stat289-f18/assets/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/stat289-f18/assets/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/stat289-f18/assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/stat289-f18/assets/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/stat289-f18/assets/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/stat289-f18/assets/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+</head>
+
+<body>
+
+<div id="header">
+  <h1>STAT/MATH/LING 289: Introduction to Data Science</h1>
+  <div style="clear:both;"></div>
 </div>
 
-<div class="posts">
-Tuesdays &amp; Thursdays, 13:30-14:45, JPSN G28<br>
-E-mail: tarnold2@richmond.edu<br>
-Office Hours: Tuesday, Thursday 16:15-17:00 <br>
-Syllabus: <a href="assets/syllabus/STAT289_Syllabus.pdf">STAT289_Syllabus.pdf</a> <br>
+<div class="sechighlight">
+<div class="container sec">
+  <h2>Course Notes and Assignments</h2>
+
+  <i>Fall 2018<br> Tuesdays &amp; Thursdays, 12:00-13:15 <br> MRC LL1<br><br></i>
+
+<b>Instructor</b>: Taylor Arnold<br>
+<b>E-mail</b>: tarnold2@richmond.edu<br>
+<b>Office</b>: Jepson Hall, Rm 218 <br>
+<b>Syllabus</b>: <a href="assets/syllabus/STAT289_Syllabus.pdf">STAT289_Syllabus.pdf</a><br>
+
+
+</div>
+</div>
+<div class="container sec">
+<table class="table">
+  <tr class="table-active">
+    <th>Date</th><th>Notebooks</th><th>References</th>
+  </tr>
+  <tr>
+    <td>2018-08-28</td>
+    <td>
+      [<a href="https://statsmaths.github.io/stat209-f18/notes/class01-introduction">Class Introduction</a>]<br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century">Data Scientist: The Sexiest Job of the 21st Century</a>]</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>2018-08-30</td>
+    <td>
+      [<a href="https://statsmaths.github.io/stat209-f18/notes/class02-setup">Setting Up Python and GitHub</a>]<br>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial01-ipython.ipynb">tutorial01-ipython.ipynb</a>]</b><br>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial02-python-basics.ipynb">tutorial02-python-basics.ipynb</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://www.anaconda.com/download">Anaconda Python</a>]</li>
+        <li>[<a href="https://www.python.org/download/releases/3.0/">Python Homepage</a>]</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>2018-09-04</td>
+    <td>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial03-modules.ipynb">tutorial03-modules.ipynb</a>]</b><br>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial04-strings.ipynb">tutorial04-strings.ipynb</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://docs.python.org/3/library/">The Python Standard Library</a>]</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>2018-09-06</td>
+    <td>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial05-regex.ipynb">tutorial05-regex.ipynb</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://docs.python.org/3/howto/regex.html">Regular Expression HOWTO</a>]</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>2018-09-11</td>
+    <td>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial06-lists.ipynb">tutorial06-lists.ipynb</a>]</b><br>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial07-file-io.ipynb">tutorial07-file-io.ipynb</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://developers.google.com/edu/python/lists">Python Lists</a>]</li>
+      </ul>
+    </td>
+  </tr>
+  <tr class="table-success">
+    <td>2018-09-13</td>
+    <td>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/projects/project01.ipynb">project01-page-links</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>2018-09-18</td>
+    <td>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial08-control-flow.ipynb">tutorial08-control-flow.ipynb</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://python.swaroopch.com/control_flow.html">Control Flow</a>]</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>2018-09-20</td>
+    <td>
+      <b>[<a href="https://raw.githubusercontent.com/statsmaths/stat209-f18/master/tutorials/tutorial09-functions.ipynb">tutorial09-functions.ipynb</a>]</b><br>
+    </td>
+    <td>
+      <ul>
+        <li>[<a href="https://en.wikibooks.org/wiki/Python_Programming/Functions">Python Programming/Functions</a>]</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 </div>
 
-<div class="posts">
 
-</div>
+<!-- jQuery and Boostrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-<div id="footer" style="min-height:100px">
-</div>
+</body>
+
+</html>
+

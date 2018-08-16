@@ -1,5 +1,5 @@
 ---
-title: "Class 02: Setting Python and GitHub"
+title: "Setting Up Python and GitHub"
 author: "Taylor Arnold"
 output: html
 ---

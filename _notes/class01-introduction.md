@@ -1,5 +1,5 @@
 ---
-title: "Class 01: Introduction to Statistics"
+title: "Introduction to Data Science"
 author: "Taylor Arnold"
 output: html
 ---
