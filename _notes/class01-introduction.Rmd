@@ -61,10 +61,21 @@ science provide a new set of tools that are able to engage with, rather than
 against, these disciplinary techniques while opening the possibility of
 producing knowledge through the study of large unstructured data sets.
 
+## Names
+
+I am an terrible at remembering names, so I typically create nametags for
+each of my classes and use these for the first month or so of the semester.
+Please either grab these from me when you walk in or (if I've assigned groups)
+sit where your nametag is given.
+
+For me, please note that Taylor is my first name and Arnold is my last name.
+I prefer to go by "Taylor", though "Dr. Arnold" is fine too if that's more
+comfortable for you. But please don't use "Dr. Taylor" or "Arnold".
+
 # Syllabus
 
 Below I highlight some of the most important elements of the course syllabus.
-The full syllabus, which you should consult on your own, is posted on the 
+The full syllabus, which you should consult on your own, is posted on the
 course website.
 
 ## Website
@@ -87,8 +98,8 @@ of files:
 - **tutorials:** These tend to be shorter files that introduce a new
 programming or data science topic. There will typically be a number of
 exercises to fill in at the end of the notebook.
-- **projects:** These will be longer, and more open ended, than 
-tutorial files. They may ask you to chain together a number of concepts in 
+- **projects:** These will be longer, and more open ended, than
+tutorial files. They may ask you to chain together a number of concepts in
 order to solve a data science task.
 
 We will typically start both types of notebooks in class. You are expected to
@@ -100,7 +111,7 @@ own GitHub repositories to receive proper credit.
 
 ## Final Grades
 
-Your final grade will be determined by your work on the tutorial and project 
+Your final grade will be determined by your work on the tutorial and project
 notebooks. The tutorials are graded based only on completion; you will get a
 pass/fail mark for each one. Each project will be labelled with a total number
 of points and you will receive a grade indicating how many of these points have
@@ -139,7 +150,7 @@ unless I have given you instructions otherwise. For projects, I expect you to
 work on your own with no external assistance unless the instructions indicate
 that the project is to be worked on in groups. Groups will be established or
 assigned ahead of time in class.
-- **Late work:** You are expected to submit all work on-time. Late 
+- **Late work:** You are expected to submit all work on-time. Late
 work will be accepted after the due date with a point deduction for each day
 late (rounded up for each 24-hour period).
 - **Attendance:** You are expected to both attend and participate in most
@@ -151,10 +162,10 @@ is considered equivalent to an absence.
 missing a quiz, please arrange to meet with me as soon as possible.
 - **Class conduct:** During class I expect you to refrain from checking
 email, being on phones, or working on assignments for other classes.
-- **Computers:** I except you to bring a working laptop with Python 3 
-installed. If this poses a challenge, please speak with me at the 
+- **Computers:** I except you to bring a working laptop with Python 3
+installed. If this poses a challenge, please speak with me at the
 start of the semester or as new problems arise.
-- **Office hours:** Rather than fixed weekly office hours, I will 
+- **Office hours:** Rather than fixed weekly office hours, I will
 provide blocks of open times to meet with me particularly focused around
 project due dates. If you find me in my office, poke your head in and I
 am usually happy to meet on the spot. Otherwise, please email me to make an
