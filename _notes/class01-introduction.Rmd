@@ -39,7 +39,10 @@ all of your projects for this semester should be posted.
 ## Create Workspace
 
 Now, either download the entire repository as a zip file
-or, if you use git, clone the repository. Either way, put the
+or, if you use git, clone the repository.
+(If GitHub is being a pain, you can also download the 
+[zip file directly](https://github.com/statsmaths/stat289-template/archive/master.zip))
+Either way, put the
 results somewhere on your computer that you can easily find
 and save. You'll put all of the materials from this class
 inside that folder.
