@@ -1,75 +1,36 @@
 ---
-title: "Setting Up Python and GitHub"
+title: "Object of Study: Wikipedia"
 author: "Taylor Arnold"
 output: html
 ---
 
 
 
-## GitHub
+## Object of Study
 
-If you do not already have an account, go to the main webpage and create a
-free account. Try to pick a professional name as you may find that you want
-to make this public at some point:
+Our object of study for this semester (Fall 2018) concerns the edit history
+of pages on Wikipedia. Our research for the semester will be guided by drawing
+on questions such as:
 
-- [https://github.com/](https://github.com/)
+- How is knowledge being represented through the works of an anonymous,
+decentralized collective of users connected across the internet?
+- What role does memory play in the representation of current and
+semi-current events?
+- What kinds of knowledge are privileged, or taken for granted, by
+citation patterns on the internet?
+- How do cultural and linguistic factors play into the structure of
+Wikipedia pages (by looking at pages across different languages)?
+- What role do images and other media play in the structure and
+development of encyclopedic pages? Has this changed over time?
 
-Next, follow this link and accept the invitation:
+These questions can be studied from a number of disciplinary perspectives.
+For example, one might draw on methods from from one or more of: psychology,
+sociology, linguistics, political science, American studies, media studies,
+and critical theory. In this course we will see how the methods of data
+science provide a new set of tools that are able to engage with, rather than
+against, these disciplinary techniques while opening the possibility of
+producing knowledge through the study of large unstructured data sets.
 
-- [https://classroom.github.com/a/wPpmwCzM](https://classroom.github.com/a/wPpmwCzM)
-
-Assuming you have a valid GitHub account, this will set up a repository where
-all of your projects for this semester should be posted.
-
-## Create Workspace
-
-Now, either download the entire repository as a zip file
-or, if you use git, clone the repository. Either way, put the
-results somewhere on your computer that you can easily find
-and save. You'll put all of the materials from this class 
-inside that folder.
-
-# Setting up Python
-
-## Download software
-
-We are going to use a version of Python distributed by Anaconda. This should
-simplify our installation and streamline our work for the semester. Note that
-we will be using Python 3.
-
-To start, navigate to the Anaconda website:
-
-> [https://www.anaconda.com/download/](https://www.anaconda.com/download/)
-
-You should see a page like this:
-
-![](../assets/img/anaconda01.jpeg)
-
-Click on the correct platform and download Python 3.6. This is a large file
-so it may take a few minutes. Note that there will be a pop-up to be on their
-mailing list. Just ignore this; the download will start automatically.
-
-Once the download is complete install the software on your computer. Note that
-on macOS you need to drag 
-
-## Start Anaconda Navigator
-
-Once installed, run the Anaconda Navigator from your applications directory.
-You should see a screen that looks like this:
-
-![](../assets/img/anaconda02.jpeg)
-
-If you have this screen, you should see a tile called "jupyter". Click the 
-launch button below the logo. This runs the Python engine and opens a notebook
-in your web browser. This is what we will be using this semester to run 
-Python code.
-
-![](../assets/img/anaconda03.jpeg)
-
-Now, once you save a Jupyter Notebook, navigate to where you saved the file and
-open it:
-
-![](../assets/img/anaconda03.jpeg)
 
 
 
