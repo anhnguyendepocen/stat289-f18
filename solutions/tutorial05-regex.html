@@ -12531,7 +12531,7 @@ to catch these edge cases and print the results.</p>
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;[a-zA-Z0-9&#39;]+&quot;</span><span class="p">,</span> <span class="n">wiki</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;[a-zA-Z0-9&#39;]+&quot;</span><span class="p">,</span> <span class="n">wiki2</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12548,7 +12548,7 @@ to catch these edge cases and print the results.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;Data&#39;, &#39;science&#39;, &#39;is&#39;, &#39;an&#39;, &#39;interdisciplinary&#39;, &#39;field&#39;, &#39;that&#39;, &#39;uses&#39;, &#39;scientific&#39;, &#39;methods&#39;, &#39;processes&#39;, &#39;algorithms&#39;, &#39;and&#39;, &#39;systems&#39;, &#39;to&#39;, &#39;extract&#39;, &#39;knowledge&#39;, &#39;and&#39;, &#39;insights&#39;, &#39;from&#39;, &#39;data&#39;, &#39;in&#39;, &#39;various&#39;, &#39;forms&#39;, &#39;both&#39;, &#39;structured&#39;, &#39;and&#39;, &#39;unstructured&#39;, &#39;similar&#39;, &#39;to&#39;, &#39;data&#39;, &#39;mining&#39;, &#39;Data&#39;, &#39;science&#39;, &#39;is&#39;, &#39;a&#39;, &#39;concept&#39;, &#39;to&#39;, &#39;unify&#39;, &#39;statistics&#39;, &#39;data&#39;, &#39;analysis&#39;, &#39;machine&#39;, &#39;learning&#39;, &#39;and&#39;, &#39;their&#39;, &#39;related&#39;, &#39;methods&#39;, &#39;in&#39;, &#39;order&#39;, &#39;to&#39;, &#39;understand&#39;, &#39;and&#39;, &#39;analyze&#39;, &#39;actual&#39;, &#39;phenomena&#39;, &#39;with&#39;, &#39;data&#39;, &#39;It&#39;, &#39;employs&#39;, &#39;techniques&#39;, &#39;and&#39;, &#39;theories&#39;, &#39;drawn&#39;, &#39;from&#39;, &#39;many&#39;, &#39;fields&#39;, &#39;within&#39;, &#39;the&#39;, &#39;context&#39;, &#39;of&#39;, &#39;mathematics&#39;, &#39;statistics&#39;, &#39;information&#39;, &#39;science&#39;, &#39;and&#39;, &#39;computer&#39;, &#39;science&#39;]
+<pre>[&#39;Even&#39;, &#39;the&#39;, &#39;suggestion&#39;, &#39;that&#39;, &#39;data&#39;, &#39;science&#39;, &#39;is&#39;, &#39;sexy&#39;, &#39;was&#39;, &#39;a&#39;, &#39;paraphrased&#39;, &#39;reference&#39;, &#39;to&#39;, &#39;Dr&#39;, &#39;Hans&#39;, &#34;Rosling&#39;s&#34;, &#39;2011&#39;, &#39;BBC&#39;, &#39;documentary&#39;, &#39;quote&#39;, &#39;Statistics&#39;, &#39;is&#39;, &#39;now&#39;, &#39;the&#39;, &#39;sexiest&#39;, &#39;subject&#39;, &#39;around&#39;]
 </pre>
 </div>
 </div>
@@ -12574,7 +12574,7 @@ word). Modify the code you had above using the <code>\w</code> marker:</p>
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;[\w&#39;]+&quot;</span><span class="p">,</span> <span class="n">wiki</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;[\w&#39;]+&quot;</span><span class="p">,</span> <span class="n">wiki2</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12591,7 +12591,7 @@ word). Modify the code you had above using the <code>\w</code> marker:</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;Data&#39;, &#39;science&#39;, &#39;is&#39;, &#39;an&#39;, &#39;interdisciplinary&#39;, &#39;field&#39;, &#39;that&#39;, &#39;uses&#39;, &#39;scientific&#39;, &#39;methods&#39;, &#39;processes&#39;, &#39;algorithms&#39;, &#39;and&#39;, &#39;systems&#39;, &#39;to&#39;, &#39;extract&#39;, &#39;knowledge&#39;, &#39;and&#39;, &#39;insights&#39;, &#39;from&#39;, &#39;data&#39;, &#39;in&#39;, &#39;various&#39;, &#39;forms&#39;, &#39;both&#39;, &#39;structured&#39;, &#39;and&#39;, &#39;unstructured&#39;, &#39;similar&#39;, &#39;to&#39;, &#39;data&#39;, &#39;mining&#39;, &#39;Data&#39;, &#39;science&#39;, &#39;is&#39;, &#39;a&#39;, &#39;concept&#39;, &#39;to&#39;, &#39;unify&#39;, &#39;statistics&#39;, &#39;data&#39;, &#39;analysis&#39;, &#39;machine&#39;, &#39;learning&#39;, &#39;and&#39;, &#39;their&#39;, &#39;related&#39;, &#39;methods&#39;, &#39;in&#39;, &#39;order&#39;, &#39;to&#39;, &#39;understand&#39;, &#39;and&#39;, &#39;analyze&#39;, &#39;actual&#39;, &#39;phenomena&#39;, &#39;with&#39;, &#39;data&#39;, &#39;It&#39;, &#39;employs&#39;, &#39;techniques&#39;, &#39;and&#39;, &#39;theories&#39;, &#39;drawn&#39;, &#39;from&#39;, &#39;many&#39;, &#39;fields&#39;, &#39;within&#39;, &#39;the&#39;, &#39;context&#39;, &#39;of&#39;, &#39;mathematics&#39;, &#39;statistics&#39;, &#39;information&#39;, &#39;science&#39;, &#39;and&#39;, &#39;computer&#39;, &#39;science&#39;]
+<pre>[&#39;Even&#39;, &#39;the&#39;, &#39;suggestion&#39;, &#39;that&#39;, &#39;data&#39;, &#39;science&#39;, &#39;is&#39;, &#39;sexy&#39;, &#39;was&#39;, &#39;a&#39;, &#39;paraphrased&#39;, &#39;reference&#39;, &#39;to&#39;, &#39;Dr&#39;, &#39;Hans&#39;, &#34;Rosling&#39;s&#34;, &#39;2011&#39;, &#39;BBC&#39;, &#39;documentary&#39;, &#39;quote&#39;, &#39;Statistics&#39;, &#39;is&#39;, &#39;now&#39;, &#39;the&#39;, &#39;sexiest&#39;, &#39;subject&#39;, &#39;around&#39;]
 </pre>
 </div>
 </div>
