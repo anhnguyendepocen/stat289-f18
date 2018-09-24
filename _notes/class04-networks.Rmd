@@ -1,0 +1,311 @@
+---
+title: "Network Data"
+author: "Taylor Arnold"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.path = "../assets/class03-networks/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+```
+
+```{r, message = FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(viridis)
+library(smodels)
+```
+
+![](../assets/img/data_pipeline_visualize.png)
+
+```{r}
+#' Add network metadata to edge and node lists
+#'
+#' @import        igraph
+#'
+#' @param nodes     data frame describing the nodes
+#' @param edges     data frame describing the edges
+#' @param directed  logical. Is this a directed graph?
+#' @param bipartite logical. Is this a directed graph?
+#'
+#' @export
+graph_data <- function(edges, nodes = NULL, nodes2 = NULL,
+                       directed = FALSE, layout = NULL) {
+
+  # if no nodes data frame, create it
+  if (is.null(nodes))
+    nodes <- dplyr::data_frame(id = unique(c(edges[[1]], edges[[2]])))
+
+  # is this a bipartite graph?
+  bipartite <- !is.null(nodes2)
+
+  # make sure edges have associated nodes
+  names(nodes)[1] <- "id"
+  names(edges)[1:2] <- c("id", "id_out")
+  nodes[[1]] <- as.character(nodes[[1]])
+  edges[[1]] <- as.character(edges[[1]])
+  edges[[2]] <- as.character(edges[[2]])
+  node_names <- nodes$id
+  bad_ids <- c(which(is.na(match(edges[[1]], node_names))),
+               which(is.na(match(edges[[2]], node_names))))
+  if (length(bad_ids) > 0)
+    edges <- edges[-bad_ids,]
+
+  # create the graph object
+  H <- igraph::graph.edgelist(as.matrix(edges[,1:2]), directed = directed)
+
+  # layout is stochastic, so make it here with a fixed seed
+  set.seed(1)
+  if (is.null(layout)) {
+    if (bipartite) {
+      L <- igraph::layout_as_bipartite(H)
+    } else {
+      L <- igraph::layout_nicely(H)
+    }
+  } else {
+    L <- as.matrix(layout)
+  }
+
+  # get id's from the graph back into the edge list
+  vs <- igraph::V(H)
+  es <- igraph::get.edgelist(H)
+  noms <- names(vs)
+  if (is.null(noms)) noms <- seq_along(vs)
+  ids <- cbind(match(es[,1], noms),
+               match(es[,2], noms))
+
+  # create node output
+  cmp <- igraph::components(H)
+  node_out <- dplyr::data_frame(id = as.character(noms),
+                          x = L[,1], y = L[,2],
+                          degree = igraph::degree(H, mode = "all"),
+                          degree_in = igraph::degree(H, mode = "in"),
+                          degree_out = igraph::degree(H, mode = "out"),
+                          eigen = igraph::eigen_centrality(H, directed = FALSE)$vector,
+                          close = igraph::closeness(H),
+                          between = igraph::betweenness(H),
+                          cluster = as.character(as.integer(igraph::membership(igraph::cluster_walktrap(H)))),
+                          component = as.integer(cmp$membership),
+                          component_size = cmp$csize[as.integer(cmp$membership)])
+
+  these <- which(!is.na(match(names(nodes)[-1], names(node_out)[-1]))) + 1
+  if (length(these))
+    nodes <- nodes[,-these]
+  node_out <- dplyr::inner_join(nodes, node_out, by = "id")
+
+  # create output edge data
+  edge_out <- dplyr::data_frame(x = L[ids[,1],1],
+                                xend = L[ids[,2],1],
+                                y = L[ids[,1],2],
+                                yend = L[ids[,2],2])
+
+  these <- which(!is.na(match(names(edges), names(edge_out))))
+  if (length(these))
+    edges <- edges[,-these]
+  edge_out <- dplyr::bind_cols(edges, edge_out)
+
+  list(nodes = node_out, edges = edge_out)
+}
+
+#' Add network metadata to edge and node lists
+#'
+#' @import        igraph
+#'
+#' @param edges     data frame describing the edges
+#'
+#' @export
+co_cite <- function(edges) {
+
+  # create the graph object
+  H <- igraph::graph.edgelist(as.matrix(edges[,1:2]))
+  cocitation(H)
+
+  X <- cocitation(H)
+  df <- data_frame(id = rownames(X)[row(X)],
+                   id_out = rownames(X)[col(X)],
+                   count = as.numeric(X))
+  df[df$count > 0,]
+}
+```
+
+
+## Networks
+
+Network data consists of two types of objects:
+
+- nodes, the primary object of study
+- edges, connections between nodes
+
+These two things can in theory be any set of objects with links between them.
+Some common examples include:
+
+- social networks: nodes are people and edges describe relationships
+- family trees: nodes are people and edges describe marriage or child-parent relationships
+- citation networks: nodes are papers/articles/books and edges are citations from one work to another
+- similarity network: nodes are almost any entity and edges describe objects that are particularly
+similar
+
+Today we will see ways of working with network data. I'll start here with the general
+concepts; you'll see in the tutorials how to work with networks in Python.
+
+Note that you may have heard of what I call networks under the term of a *graph*. This
+is the common name in the mathematical study. In math nodes are often called verticies.
+You'll also hear edges called both links and connections. These all represent the same
+structures, though the kinds of questions mathematicians are concerned with are generally
+distinct from those of interest in statistics.
+
+## Kite example
+
+Our first network dataset is an artificial network created to illustrate some of the
+primary properties. The graph is called a "kite" because of its shape.
+We will move to more interesting data soon.
+
+```{r, echo = FALSE}
+kite_edges <- structure(list(id = c("Albert", "Albert", "Albert", "Albert",
+"Betty", "Betty", "Betty", "Claudia", "Claudia", "Dieter", "Dieter",
+"Dieter", "Ed", "Flavia", "Flavia", "Gaby", "Hellen"), id_out = c("Betty",
+"Claudia", "Dieter", "Flavia", "Dieter", "Ed", "Gaby", "Dieter",
+"Flavia", "Ed", "Flavia", "Gaby", "Gaby", "Gaby", "Hellen", "Hellen",
+"Ida")), .Names = c("id", "id_out"), row.names = c(NA, -17L), class = c("tbl_df",
+"tbl", "data.frame"))
+kite_nodes <- structure(list(id = c("Albert", "Betty", "Claudia", "Dieter",
+"Ed", "Flavia", "Gaby", "Hellen", "Ida"), age = c(14L, 12L, 17L,
+16L, 17L, 14L, 15L, 14L, 18L), belt = c("green", "black", "green",
+"green", "green", "black", "white", "green", "green")), .Names = c("id",
+"age", "belt"), row.names = c(NA, -9L), class = c("tbl_df", "tbl",
+"data.frame"))
+```
+
+```{r, eval = FALSE}
+install.packages("igraph")
+devtools::install_github("statsmaths/smodels")
+```
+
+Once installed, load the smodels package and pass the edges and nodes to the
+function `graph_data`:
+
+```{r}
+library(smodels)
+gr <- graph_data(kite_edges, kite_nodes)
+
+nodes <- gr$nodes
+edges <- gr$edges
+```
+
+We can see the graph below.
+Notice that the nodes are spread out over the space in a reasonably nice pattern.
+
+```{r}
+ggplot(gr$nodes, aes(x, y, label = id)) +
+  geom_segment(aes(xend = xend, yend = yend), data = gr$edges,
+               color = grey(0.9), alpha = 0.9, size = 2) +
+  geom_point(aes(color = belt), size = 7) +
+  geom_text(aes(y = y - 0.15), size = 5) +
+  theme_void()
+```
+
+Notice that the layout made linked nodes close together and minimizes crossing of edges. The
+algorithm actually uses a physics simulation where edges are treated as springs and nodes as
+positively charged particles. Hence, the nodes want to spread out but the edge push together
+neighboring nodes.
+
+## Centrality
+
+There are a few different ways of measuring how central or important a node appears
+within a network. Eigenvalue centrality constructs a score for each node such that
+each nodes centrality score is proportional to the sum of its neighbors scores.
+In math:
+
+$$ s_{i} = \lambda \cdot \sum_{j \in \text{neighbors of node i}} s_j $$
+
+So the more neighbors a node has the higher it's centrality, though neighbors that are central
+themselves contribute more than nodes that are not otherwise very central. We won't go into the
+math today, but this can be solved by computing the eigenvalue problem for the adjacency matrix
+of the graph.
+
+```{r}
+ggplot(gr$nodes, aes(x, y, label = id)) +
+  geom_segment(aes(xend = xend, yend = yend), data = gr$edges,
+               color = grey(0.9), alpha = 0.9, size = 1) +
+  geom_point(aes(color = eigen), size = 7) +
+  geom_text(aes(y = y - 0.15), size = 5) +
+  scale_color_viridis() +
+  theme_void()
+```
+
+In this measurement, we see that Dieter is the most central node. He is right in the middle of the
+cluster of most densely connection points.
+
+Another centrality measurement is called *betweenness*. Consider all shortest paths between all pairs
+of nodes in the network. Betweenness measures, for each node, the proportion of these paths that run
+through a given node. We can plot this as well:
+
+```{r}
+ggplot(gr$nodes, aes(x, y, label = id)) +
+  geom_segment(aes(xend = xend, yend = yend), data = gr$edges,
+               color = grey(0.9), alpha = 0.9, size = 1) +
+  geom_point(aes(color = between), size = 7) +
+  geom_text(aes(y = y - 0.15), size = 5) +
+  scale_color_viridis() +
+  theme_void()
+```
+
+Notice now that Hellen is much more central because
+she connects everyone in the graph to Ida.
+
+Another measurement of centrality is called *closeness*. It is defined as the
+average distance (number of hops) from each node to a given node of interest.
+
+```{r}
+ggplot(gr$nodes, aes(x, y, label = id)) +
+  geom_segment(aes(xend = xend, yend = yend), data = gr$edges,
+               color = grey(0.9), alpha = 0.9, size = 1) +
+  geom_point(aes(color = close), size = 7) +
+  geom_text(aes(y = y - 0.15), size = 5) +
+  scale_color_viridis() +
+  theme_void()
+```
+
+Here Gaby, Flavia, and Dieter are equally central. Flavia and Gaby have fewer direct links,
+but are closer to Ida than Dieter.
+
+Finally, we can also use degree centrality. This simply measures how many neighbors a graph
+has.
+
+```{r}
+ggplot(gr$nodes, aes(x, y, label = id)) +
+  geom_segment(aes(xend = xend, yend = yend), data = gr$edges,
+               color = grey(0.9), alpha = 0.9, size = 1) +
+  geom_point(aes(color = degree), size = 7) +
+  geom_text(aes(y = y - 0.15), size = 5) +
+  scale_color_viridis() +
+  theme_void()
+```
+
+Notice that these measures agree to some extent but do measure slightly different aspects
+of centrality. Nodes that have a high betweenness but relatively low eigen centrality are
+known as *gatekeepers* (such as Hellen above). These are the influencial people who link
+clusters within a graph.
+
+## Clusters
+
+Speaking of clusters, we can also define clustering algorithms over a network. Here
+is an algorithm applied to our network:
+
+```{r}
+ggplot(gr$nodes, aes(x, y, label = id)) +
+  geom_segment(aes(xend = xend, yend = yend), data = gr$edges,
+               color = grey(0.9), alpha = 0.9, size = 1) +
+  geom_point(aes(color = cluster), size = 5, show.legend = FALSE) +
+  geom_text(aes(y = y - 0.15), size = 5) +
+  theme_void()
+```
+
+There is a large primary group (the blue one) and the small subgroup of Hellen and
+Ida (the red one).

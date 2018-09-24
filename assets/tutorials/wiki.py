@@ -1,13 +1,18 @@
+import gzip
 import json
 import os
 import re
 import requests
+import shutil
+import tempfile
 import time
 import urllib.parse
+import urllib.request
+import zipfile
 
 from os.path import join
 
-__version__ = 2
+__version__ = 3
 
 
 def wiki_json_path(page_title, lang='en'):
@@ -33,7 +38,7 @@ def wiki_json_path(page_title, lang='en'):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
-    file_name = page_title + ".json"
+    file_name = page_title + ".json.gz"
     file_path = join(dir_name, file_name)
 
     return file_path
@@ -61,6 +66,7 @@ def get_mediawiki_request(page_title, lang):
     page_title = re.sub("\"", "%22", page_title)
     page_title = re.sub("&", "%26", page_title)
     page_title = re.sub("\'", "%27", page_title)
+    page_title = re.sub("\+", "%2B", page_title)
 
     base_api_url = 'https://' + lang + '.wikipedia.org/w/api.php'
     default_query = 'action=parse&format=json&'
@@ -88,23 +94,75 @@ def get_wiki_json(page_title, lang='en'):
 
     # if page does not exist, grab it from Wikipedia
     if not os.path.exists(file_path):
-        print("Pulling data from MediaWiki API: '" + page_title + "'")
-        url = get_mediawiki_request(page_title, lang)
-        r = requests.get(url)
-        if r.status_code != requests.codes.ok:
-            raise IOError('Website cannot be reached')
-        page_data = r.json()
-        if 'parse' not in page_data:
-            raise IOError('Wikipedia page not found')
-        with open(file_path, 'w') as outfile:
-            json.dump(page_data['parse'], outfile)
+        page_data = download_wiki_json(page_title, lang)
+
+        with gzip.open(file_path, 'wt') as outfile:
+            json.dump(page_data, outfile)
         time.sleep(0.5)  # sleep for half second to avoid API limits
 
     # read the JSON data from local filesystem
-    with open(file_path, 'r') as infile:
+    with gzip.open(file_path, 'rt') as infile:
         new_data = json.load(infile)
 
     return new_data
+
+
+def download_wiki_json(page_title, lang='en'):
+    """Download json data file Wikipedia
+    """
+    print("Pulling data from MediaWiki API: '" + page_title + "'")
+    url = get_mediawiki_request(page_title, lang)
+    r = requests.get(url)
+    if r.status_code != requests.codes.ok:
+        raise IOError('Website cannot be reached')
+    page_data = r.json()
+    if 'parse' not in page_data:
+        raise IOError('Wikipedia page not found')
+
+    return page_data['parse']
+
+
+def bulk_download(name, lang='en',
+                  base_url="http://distantviewing.org/"):
+    """Bulk download Wikipedia files
+
+    Args:
+        name: A character string describing the
+        lang: Two letter language code describing the Wikipedia
+            language used to grab the data.
+        base_url: The URL path that contains the zip file.
+    Returns:
+        Number of files added to the archive.
+    """
+    # get file paths
+    zip_file_url = base_url + name + ".zip"
+    zip_file = tempfile.NamedTemporaryFile().name + ".zip"
+    zip_dir = tempfile.NamedTemporaryFile().name
+    stat289_base_dir = os.path.dirname(os.getcwd())
+    stat289_json_dir = join(stat289_base_dir, "data", lang)
+
+    # download the zip file
+    urllib.request.urlretrieve(zip_file_url, zip_file)
+
+    # unzip contents of the zip file
+    with zipfile.ZipFile(zip_file, 'r') as zf:
+        zf.extractall(zip_dir)
+
+    # move files to correct location
+    num_added = 0
+    archive_files = os.listdir(zip_dir)
+    for json_file in archive_files:
+        ipath = join(zip_dir, json_file)
+        opath = join(stat289_json_dir, json_file)
+        if not os.path.exists(opath):
+            num_added += 1
+            shutil.move(ipath, opath)
+
+
+    print("Added {0:d} files from an archive of {1:d} files.".format(
+          num_added, len(archive_files)))
+
+    return num_added
 
 
 def links_as_list(data):
@@ -125,3 +183,9 @@ def links_as_list(data):
             output.append(link['*'])
 
     return output
+
+
+
+
+
+
