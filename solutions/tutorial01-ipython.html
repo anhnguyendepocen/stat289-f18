@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>tutorial08-save-mediawiki</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>tutorial01-ipython</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,19 +11775,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tutorial-08:-Saving-MediaWiki-Requests">Tutorial 08: Saving MediaWiki Requests<a class="anchor-link" href="#Tutorial-08:-Saving-MediaWiki-Requests">&#182;</a></h2><p>Today's note walk you through building a function to save
-MediaWiki requests on your machine.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's start by loading four modules that we will need for this
-tutorial. I will also grab by name the function <code>join</code> as we will
-need to use it quite frequently.</p>
+<h2 id="Tutorial-01:-Introduction-to-IPython-Notebooks">Tutorial 01: Introduction to IPython Notebooks<a class="anchor-link" href="#Tutorial-01:-Introduction-to-IPython-Notebooks">&#182;</a></h2><p>Python notebooks consist of <em>cells</em> that contain either text (in markdown) or
+code. You can run the code by highlighting the call and clicking the Run
+button above. If you have used RMarkdown, IPython notebooks are similar but
+function slightly differently. One big difference is that a IPython notebook
+saves the output by default in the notebook itself.</p>
+<h3 id="Run-a-cell">Run a cell<a class="anchor-link" href="#Run-a-cell">&#182;</a></h3><p>Try to run the code snippet below by clicking on the cell and selecting the
+Run button above.</p>
 
 </div>
 </div>
@@ -11797,15 +11791,30 @@ need to use it quite frequently.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">join</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[1]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11814,10 +11823,9 @@ need to use it quite frequently.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Making-the-request">Making the request<a class="anchor-link" href="#Making-the-request">&#182;</a></h3><p>Before we wrap up any fancy functions, let's replicate
-the API request that we made in your browser. Start here
-by defining the <code>lang</code> (language), the <code>base_api_url</code>,
-and the <code>default_query</code> parameters:</p>
+<p>You can also run a cell by typing Shift + Enter on the keyboard. This
+will automatically move to the next cell; doing this is an easy way to
+run multiple lines together. Test the shortcut here:</p>
 
 </div>
 </div>
@@ -11827,12 +11835,30 @@ and the <code>default_query</code> parameters:</p>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lang</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
-<span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-<span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11841,9 +11867,7 @@ and the <code>default_query</code> parameters:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's define the page title for the University of Richmond
-(and convert spaces to underscores if needed) and then build the
-full URL string:</p>
+<p>In the cells below, write and run code to determine the product of 82 and 91.</p>
 
 </div>
 </div>
@@ -11853,33 +11877,7 @@ full URL string:</p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_title</span> <span class="o">=</span> <span class="s2">&quot;University of Richmond&quot;</span>
-<span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-<span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Pay attention to how I am using the <code>+</code> operator to build a larger
-string from individual variables. The variable <code>url</code> should now 
-contain the same URL request that we ran in the browser.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">82</span> <span class="o">+</span> <span class="mi">91</span>
 </pre></div>
 
 </div>
@@ -11892,57 +11890,13 @@ contain the same URL request that we ran in the browser.</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>https://en.wikipedia.org/w/api.php?action=parse&amp;format=json&amp;page=University_of_Richmond
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we are ready to make a request Wikipedia asking for the page
-level data. The format here is exactly the same as requesting an
-HTML page. You should get a response code of '200' indicating a
-succesful request.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">r</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;Response [200]&gt;</pre>
+<pre>173</pre>
 </div>
 
 </div>
@@ -11955,206 +11909,10 @@ succesful request.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, because the data is in JSON format we need to use slightly
-different code to grab the data. Here, I'm calling the json method
-of the request and selecting just the 'parse' parameter (remember
-in your browser that the parse element was the top of the JSON 
-tree).</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If we print this out, you'll see that it contains the same 
-information as you had in your browser (but probably not 
-formatted as well):</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print(page_data)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Dictionaries-(briefly)">Dictionaries (briefly)<a class="anchor-link" href="#Dictionaries-(briefly)">&#182;</a></h3><p>The data we call JSON in represented as an object type known
-as a dictionary (dict for short) in Python:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">page_data</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dict</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll talk more about dictionaries next class, but I thought
-it would be useful for you to at least hear the term and see
-them in action today. You can access the 'elements' of the dictionary
-by using square brackets and the name of the element that you want
-to locate. For example, here are all of the images on our page:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[9]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;University_of_Richmond_seal.svg&#39;,
- &#39;UR_Shield.svg&#39;,
- &#39;Richmond-Rummell_View.jpg&#39;,
- &#39;BoatwrightTower.jpg&#39;,
- &#39;CommonsLake.jpg&#39;,
- &#39;Commons-logo.svg&#39;,
- &#39;Folder_Hexagonal_Icon.svg&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>And here are all of the external links on the UR Wikipedia
-page:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;externallinks&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://www.richmond.edu/about/motto.html&#39;,
- &#39;https://www.nacubo.org/-/media/Nacubo/Documents/EndowmentFiles/2017-Endowment-Market-Values.ashx?la=en&amp;hash=E71088CDC05C76FCA30072DA109F91BBC10B0290&#39;,
- &#39;http://ifx.richmond.edu/pdfs/factbook2015-16.pdf&#39;,
- &#39;http://ifx.richmond.edu/pdfs/FB2-Enrollment.pdf&#39;,
- &#39;https://web.archive.org/web/20150709201808/http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://news.richmond.edu/features/article/-/10822/did-you-know-the-ur-spider-a-bite-of-history.html&#39;,
- &#39;https://web.archive.org/web/20120927033702/http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.lva.virginia.gov/public/guides/opac/gilletteabout.htm&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Next time we will see how to work with, save, and compute
-over these various elements.</p>
+<p>You can add new code block using the <code>+</code> sign on the menu (to the left of the
+Run button). This adds a new code cell below whatever block you are currently
+on. So, click on this box and add a new code block. Compute the value of 81 divided
+by 10.</p>
 
 </div>
 </div>
@@ -12163,179 +11921,10 @@ over these various elements.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Saving-a-dictionary-/-JSON-file">Saving a dictionary / JSON file<a class="anchor-link" href="#Saving-a-dictionary-/-JSON-file">&#182;</a></h3><p>First, let's just save our UR json file as a file under the
-tutorials directory on your laptop. The syntax below creates
-a file for <strong>w</strong>riting named "ur.json" and saves the variable
-data into the file.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Go back to the file browser in Python and check that the file was
-created. Click on it and verify that the JSON data is available.</p>
-<p>Now, let's load the file back into Python. This time we open a
-file for <strong>r</strong>eading and save it as the object <code>new_data</code>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-    <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When you print out the object <code>new_data</code> it should contain
-the same information as the original data.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># new_data</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Correct-file-path">Correct file path<a class="anchor-link" href="#Correct-file-path">&#182;</a></h3><p>Now, we need a function that returns the corect path that a
-JSON file should be stored at based on its title and the Wikipedia
-language. This is a bit tricky, particularly if you want it to run
-correctly across various operating systems, so I'll just give you
-the correct code here. But, you should be able to understand most
-of the parts and what is going on.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns local path to JSON file for Wikipeida page data</span>
-<span class="sd">    </span>
-<span class="sd">    This function is used to determine where the dump of a </span>
-<span class="sd">    call to the MediaWiki API, using the parse method, should</span>
-<span class="sd">    be stored. As an extra action, the function also checks that</span>
-<span class="sd">    the relevant directory exists and creates it if it does not.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string describing a relative path to file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">stat289_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-    
-    <span class="n">dir_name</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">stat289_base_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_name</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_name</span><span class="p">)</span>
-        
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">page_title</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dir_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">file_path</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can test out that the function works as expected here:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wiki_json_path</span><span class="p">(</span><span class="s2">&quot;Univeristy of Richmond&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;/Users/taylor/gh/stat289-fall-2018-statsmaths/data/en/Univeristy_of_Richmond.json&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Note</strong>: I believe this code works as given on Windows, but I was
-not able to test it directly. Please let me know if you have any
-issues with the code.</p>
+<h3 id="Make-your-own-text-box">Make your own text box<a class="anchor-link" href="#Make-your-own-text-box">&#182;</a></h3><p>Now, let's make your own text cell. Click on the empty cell below. Then,
+select the dropdown menu to the right of Run button and choose the option
+"Markdown". Then put a message in the cell and Run it. The result should
+be a new text box.</p>
 
 </div>
 </div>
@@ -12344,183 +11933,24 @@ issues with the code.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-the-MediaWiki-API">Using the MediaWiki API<a class="anchor-link" href="#Using-the-MediaWiki-API">&#182;</a></h3><p>Now, let's define a function that grabs the data from the
-MediaWiki API and either loads the file from your computer
-or pulls it from Wikipedia.</p>
-<p>We'll need this function a lot, and some of the details haven't
-been covered in the tutorials yet, so I'll provide the code 
-directly here. Notice that I've split the code into two parts
-to improve readability.</p>
+<p>HERE's some markdown!</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns URL to make parse request to the MediaWiki API</span>
-<span class="sd">        </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string giving the complete request URL.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-    <span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
-
-    <span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-    <span class="k">return</span> <span class="n">url</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_wiki_json</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns JSON data as a dictionary for the Wikipedia page</span>
-<span class="sd">    </span>
-<span class="sd">    This function either loads a cached version of the page or,</span>
-<span class="sd">    if a local version of the page is not available, calls the</span>
-<span class="sd">    MediaWiki API directly.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A dictionary object with the complete parsed JSON data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    
-    <span class="c1"># if page does not exist, grab it from Wikipedia</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pulling data from MediaWiki API...&quot;</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">page_data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-            
-    <span class="c1"># read the JSON data from local filesystem</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-        <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">new_data</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Try to run the code using the chunk below. The first
-time its run it should print out a message; afterwards
-it should load the file directly.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Water&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Test the function further by also grabbing the following pages.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;University of Virginia&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Commonwealth University&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Union University&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Open your 'data' directory and look in the directory for 'en'.
-Make sure that your data shows up correctly. Also make sure that
-re-running the code does not print out the message
-"Pulling data from MediaWiki API...".</p>
+<h3 id="Controlling-the-kernel">Controlling the kernel<a class="anchor-link" href="#Controlling-the-kernel">&#182;</a></h3><p>You'll notice that ever time you run a cell there is an integer that shows up next
+to the exectued code. This integer increases each time you run a cell. We can entirely
+restart the notebook and clear all of the output by selecting
+<code>Kernel=&gt;"Restart and Clear Output"</code> in the menu. <strong>Try this now</strong>.</p>
+<p>When you save a Jupyter notebook both the code and results are saved. This
+has benefits and drawbacks (easier to pass results around but much larger files),
+but does make it easier to submit your results through GitHub.
+Note though that the Python environment is <strong>not</strong> saved. So, you'll need to
+reload datasets and redefine variables. More on this later.</p>
 
 </div>
 </div>

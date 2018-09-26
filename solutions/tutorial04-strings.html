@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>tutorial08-save-mediawiki</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>tutorial04-strings</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,8 +11775,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tutorial-08:-Saving-MediaWiki-Requests">Tutorial 08: Saving MediaWiki Requests<a class="anchor-link" href="#Tutorial-08:-Saving-MediaWiki-Requests">&#182;</a></h2><p>Today's note walk you through building a function to save
-MediaWiki requests on your machine.</p>
+<h2 id="Tutorial-04:-Strings">Tutorial 04: Strings<a class="anchor-link" href="#Tutorial-04:-Strings">&#182;</a></h2><p>These notes are adapted from the Python tutorial available at: <a href="https://docs.python.org/3/tutorial/">https://docs.python.org/3/tutorial/</a>.</p>
+<p>Here we see how Python works with strings of characters.</p>
 
 </div>
 </div>
@@ -11785,9 +11785,7 @@ MediaWiki requests on your machine.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's start by loading four modules that we will need for this
-tutorial. I will also grab by name the function <code>join</code> as we will
-need to use it quite frequently.</p>
+<h3 id="String-literals">String literals<a class="anchor-link" href="#String-literals">&#182;</a></h3><p>Besides numbers, Python can also manipulate strings, which can be expressed in several ways. They can be enclosed in single quotes ('...') or double quotes ("...") with the same result .</p>
 
 </div>
 </div>
@@ -11797,39 +11795,20 @@ need to use it quite frequently.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">join</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39;spam eggs&#39;</span>  <span class="c1"># single quotes</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Making-the-request">Making the request<a class="anchor-link" href="#Making-the-request">&#182;</a></h3><p>Before we wrap up any fancy functions, let's replicate
-the API request that we made in your browser. Start here
-by defining the <code>lang</code> (language), the <code>base_api_url</code>,
-and the <code>default_query</code> parameters:</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lang</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
-<span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-<span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s2">&quot;spam eggs&quot;</span>  <span class="c1"># double quotes (notice the output is the same!)</span>
 </pre></div>
 
 </div>
@@ -11841,9 +11820,8 @@ and the <code>default_query</code> parameters:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's define the page title for the University of Richmond
-(and convert spaces to underscores if needed) and then build the
-full URL string:</p>
+<p>In the interactive interpreter, the output string is enclosed in quotes and special characters are escaped with backslashes. While this might sometimes look different from the input (the enclosing quotes could change), the two strings are equivalent. The string is enclosed in double quotes if the string contains a single quote and no double quotes, otherwise it is enclosed in single quotes.</p>
+<p>The print() function produces a more readable output without the quotes and other special characters:</p>
 
 </div>
 </div>
@@ -11853,100 +11831,37 @@ full URL string:</p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_title</span> <span class="o">=</span> <span class="s2">&quot;University of Richmond&quot;</span>
-<span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-<span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;spam eggs&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Pay attention to how I am using the <code>+</code> operator to build a larger
-string from individual variables. The variable <code>url</code> should now 
-contain the same URL request that we ran in the browser.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;First line.</span><span class="se">\n</span><span class="s1">Second line.&#39;</span>  <span class="c1"># \n means newline</span>
+<span class="n">s</span>                                <span class="c1"># without print(), \n is included in the output</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>https://en.wikipedia.org/w/api.php?action=parse&amp;format=json&amp;page=University_of_Richmond
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we are ready to make a request Wikipedia asking for the page
-level data. The format here is exactly the same as requesting an
-HTML page. You should get a response code of '200' indicating a
-succesful request.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">r</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;Response [200]&gt;</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -11955,11 +11870,7 @@ succesful request.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, because the data is in JSON format we need to use slightly
-different code to grab the data. Here, I'm calling the json method
-of the request and selecting just the 'parse' parameter (remember
-in your browser that the parse element was the top of the JSON 
-tree).</p>
+<p>Strings can be concatenated (glued together) with the + operator:</p>
 
 </div>
 </div>
@@ -11969,7 +11880,7 @@ tree).</p>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39;tea&#39;</span> <span class="o">+</span> <span class="s1">&#39;pot&#39;</span>
 </pre></div>
 
 </div>
@@ -11981,9 +11892,7 @@ tree).</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If we print this out, you'll see that it contains the same 
-information as you had in your browser (but probably not 
-formatted as well):</p>
+<p>This also works if we save the string as a variable:</p>
 
 </div>
 </div>
@@ -11993,7 +11902,8 @@ formatted as well):</p>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print(page_data)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;Py&#39;</span>
+<span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;thon&#39;</span>
 </pre></div>
 
 </div>
@@ -12005,8 +11915,7 @@ formatted as well):</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Dictionaries-(briefly)">Dictionaries (briefly)<a class="anchor-link" href="#Dictionaries-(briefly)">&#182;</a></h3><p>The data we call JSON in represented as an object type known
-as a dictionary (dict for short) in Python:</p>
+<h3 id="Substrings">Substrings<a class="anchor-link" href="#Substrings">&#182;</a></h3><p>Strings can be indexed (subscripted), with the first character having index 0. There is no separate character type; a character is simply a string of size one:</p>
 
 </div>
 </div>
@@ -12016,54 +11925,21 @@ as a dictionary (dict for short) in Python:</p>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">page_data</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span> <span class="o">=</span> <span class="s1">&#39;Python&#39;</span>
+<span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># character in position 0</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dict</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll talk more about dictionaries next class, but I thought
-it would be useful for you to at least hear the term and see
-them in action today. You can access the 'elements' of the dictionary
-by using square brackets and the name of the element that you want
-to locate. For example, here are all of the images on our page:</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># character in position 5</span>
 </pre></div>
 
 </div>
@@ -12082,13 +11958,7 @@ to locate. For example, here are all of the images on our page:</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;University_of_Richmond_seal.svg&#39;,
- &#39;UR_Shield.svg&#39;,
- &#39;Richmond-Rummell_View.jpg&#39;,
- &#39;BoatwrightTower.jpg&#39;,
- &#39;CommonsLake.jpg&#39;,
- &#39;Commons-logo.svg&#39;,
- &#39;Folder_Hexagonal_Icon.svg&#39;]</pre>
+<pre>&#39;n&#39;</pre>
 </div>
 
 </div>
@@ -12101,8 +11971,7 @@ to locate. For example, here are all of the images on our page:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And here are all of the external links on the UR Wikipedia
-page:</p>
+<p>Indices may also be negative numbers, to start counting from the right:</p>
 
 </div>
 </div>
@@ -12112,7 +11981,7 @@ page:</p>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;externallinks&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># last character</span>
 </pre></div>
 
 </div>
@@ -12131,16 +12000,7 @@ page:</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://www.richmond.edu/about/motto.html&#39;,
- &#39;https://www.nacubo.org/-/media/Nacubo/Documents/EndowmentFiles/2017-Endowment-Market-Values.ashx?la=en&amp;hash=E71088CDC05C76FCA30072DA109F91BBC10B0290&#39;,
- &#39;http://ifx.richmond.edu/pdfs/factbook2015-16.pdf&#39;,
- &#39;http://ifx.richmond.edu/pdfs/FB2-Enrollment.pdf&#39;,
- &#39;https://web.archive.org/web/20150709201808/http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://news.richmond.edu/features/article/-/10822/did-you-know-the-ur-spider-a-bite-of-history.html&#39;,
- &#39;https://web.archive.org/web/20120927033702/http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.lva.virginia.gov/public/guides/opac/gilletteabout.htm&#39;]</pre>
+<pre>&#39;n&#39;</pre>
 </div>
 
 </div>
@@ -12148,65 +12008,69 @@ page:</p>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Next time we will see how to work with, save, and compute
-over these various elements.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Saving-a-dictionary-/-JSON-file">Saving a dictionary / JSON file<a class="anchor-link" href="#Saving-a-dictionary-/-JSON-file">&#182;</a></h3><p>First, let's just save our UR json file as a file under the
-tutorials directory on your laptop. The syntax below creates
-a file for <strong>w</strong>riting named "ur.json" and saves the variable
-data into the file.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># second-last character</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;o&#39;</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Go back to the file browser in Python and check that the file was
-created. Click on it and verify that the JSON data is available.</p>
-<p>Now, let's load the file back into Python. This time we open a
-file for <strong>r</strong>eading and save it as the object <code>new_data</code>.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-    <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;P&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12215,8 +12079,8 @@ file for <strong>r</strong>eading and save it as the object <code>new_data</code
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When you print out the object <code>new_data</code> it should contain
-the same information as the original data.</p>
+<p>Note that since -0 is the same as 0, negative indices start from -1.</p>
+<p>In addition to indexing, slicing is also supported. While indexing is used to obtain individual characters, slicing allows you to obtain substring:</p>
 
 </div>
 </div>
@@ -12226,63 +12090,63 @@ the same information as the original data.</p>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># new_data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># characters from position 0 (included) to 2 (excluded)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Py&#39;</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Correct-file-path">Correct file path<a class="anchor-link" href="#Correct-file-path">&#182;</a></h3><p>Now, we need a function that returns the corect path that a
-JSON file should be stored at based on its title and the Wikipedia
-language. This is a bit tricky, particularly if you want it to run
-correctly across various operating systems, so I'll just give you
-the correct code here. But, you should be able to understand most
-of the parts and what is going on.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns local path to JSON file for Wikipeida page data</span>
-<span class="sd">    </span>
-<span class="sd">    This function is used to determine where the dump of a </span>
-<span class="sd">    call to the MediaWiki API, using the parse method, should</span>
-<span class="sd">    be stored. As an extra action, the function also checks that</span>
-<span class="sd">    the relevant directory exists and creates it if it does not.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string describing a relative path to file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">stat289_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-    
-    <span class="n">dir_name</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">stat289_base_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_name</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_name</span><span class="p">)</span>
-        
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">page_title</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dir_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">file_path</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># characters from position 2 (included) to 5 (excluded)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;tho&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12291,7 +12155,7 @@ of the parts and what is going on.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can test out that the function works as expected here:</p>
+<p>Note how the start is always included, and the end always excluded. This makes sure that s[:i] + s[i:] is always equal to s:</p>
 
 </div>
 </div>
@@ -12301,7 +12165,7 @@ of the parts and what is going on.</p>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wiki_json_path</span><span class="p">(</span><span class="s2">&quot;Univeristy of Richmond&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
 </pre></div>
 
 </div>
@@ -12320,7 +12184,7 @@ of the parts and what is going on.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/Users/taylor/gh/stat289-fall-2018-statsmaths/data/en/Univeristy_of_Richmond.json&#39;</pre>
+<pre>&#39;Python&#39;</pre>
 </div>
 
 </div>
@@ -12328,122 +12192,88 @@ of the parts and what is going on.</p>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Note</strong>: I believe this code works as given on Windows, but I was
-not able to test it directly. Please let me know if you have any
-issues with the code.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-the-MediaWiki-API">Using the MediaWiki API<a class="anchor-link" href="#Using-the-MediaWiki-API">&#182;</a></h3><p>Now, let's define a function that grabs the data from the
-MediaWiki API and either loads the file from your computer
-or pulls it from Wikipedia.</p>
-<p>We'll need this function a lot, and some of the details haven't
-been covered in the tutorials yet, so I'll provide the code 
-directly here. Notice that I've split the code into two parts
-to improve readability.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns URL to make parse request to the MediaWiki API</span>
-<span class="sd">        </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string giving the complete request URL.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-    <span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
-
-    <span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-    <span class="k">return</span> <span class="n">url</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Python&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Slice indices have useful defaults; an omitted first index defaults to zero, an omitted second index defaults to the size of the string being sliced.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_wiki_json</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns JSON data as a dictionary for the Wikipedia page</span>
-<span class="sd">    </span>
-<span class="sd">    This function either loads a cached version of the page or,</span>
-<span class="sd">    if a local version of the page is not available, calls the</span>
-<span class="sd">    MediaWiki API directly.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A dictionary object with the complete parsed JSON data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    
-    <span class="c1"># if page does not exist, grab it from Wikipedia</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pulling data from MediaWiki API...&quot;</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">page_data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-            
-    <span class="c1"># read the JSON data from local filesystem</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-        <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">new_data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>   <span class="c1"># character from the beginning to position 2 (excluded) </span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Py&#39;</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Try to run the code using the chunk below. The first
-time its run it should print out a message; afterwards
-it should load the file directly.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Water&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>  <span class="c1"># characters from position 4 (included) to the end</span>
 </pre></div>
 
 </div>
@@ -12456,36 +12286,730 @@ it should load the file directly.</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[18]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-</pre>
-</div>
-</div>
 
-</div>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;on&#39;</pre>
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Test the function further by also grabbing the following pages.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;University of Virginia&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Commonwealth University&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Union University&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="c1"># characters from the second-last (included) to the end</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;on&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One way to remember how slices work is to think of the indices as pointing between characters, with the left edge of the first character numbered 0. Then the right edge of the last character of a string of n characters has index n, for example:</p>
+
+<pre><code> +---+---+---+---+---+---+
+ | P | y | t | h | o | n |
+ +---+---+---+---+---+---+
+ 0   1   2   3   4   5   6
+-6  -5  -4  -3  -2  -1</code></pre>
+<p>The first row of numbers gives the position of the indices 0…6 in the string; the second row gives the corresponding negative indices. The slice from i to j consists of all characters between the edges labeled i and j, respectively.</p>
+<p>For non-negative indices, the length of a slice is the difference of the indices, if both are within bounds. For example, the length of word[1:3] is 2.</p>
+<p>Attempting to use an index that is too large will result in an error:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span>  <span class="c1"># the word only has 6 characters</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">IndexError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-20-469c6d99b5b2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>word<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">42</span><span class="ansi-blue-fg">]</span>  <span class="ansi-red-fg"># the word only has 6 characters</span>
+
+<span class="ansi-red-fg">IndexError</span>: string index out of range</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, out of range slice indexes are handled gracefully when used for slicing:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;on&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word</span><span class="p">[</span><span class="mi">42</span><span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[22]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="Practice">Practice<a class="anchor-link" href="#Practice">&#182;</a></h2><p>Below, define a variable called <code>my_name</code> and assign
+it a string with your full name.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_name</span> <span class="o">=</span> <span class="s1">&#39;Taylor Arnold&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Print out a friendly message that combines your name and a friendly
+greeting (such as "Hi Taylor! Have a great day!") using the variable
+you just created and the <code>+</code> operator.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">&#39;Hello &#39;</span> <span class="o">+</span> <span class="n">my_name</span> <span class="o">+</span> <span class="s1">&#39;!&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[24]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Hello Taylor Arnold!&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Consider the following string assigned to the variable <code>food_type</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">food_type</span> <span class="o">=</span> <span class="s2">&quot;apple pie&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Write code that prints out the first word of the string ("apple") using the substrings commands above:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">food_type</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[26]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;apple&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Write code that prints out the second word of the string ("pie") using the substrings commands above by referencing from the end of the string with a negative index:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">food_type</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[27]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;pie&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Assign the string "pig" to the variable <code>input_word</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_word</span> <span class="o">=</span> <span class="s1">&#39;pig&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Write code below to produce a plural form of the string in
+<code>input_word</code>, assuming that we can just add the letter <code>s</code> to
+the end. Store the value as <code>plural_word</code>. Return the plural form.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_word</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;pigs&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What are some input words for which the code above would fail to
+produce the correct plural form in English.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer:</strong> Mouse, moose, and octopus.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pig Latin is a made up word game common in English speaking countries.
+The exact rules can get complex, but the basic idea is to move the
+starting letter to the end of the word and add the letters "ay" to the
+end of the word. So, "pig" becomes "igpay".</p>
+<p>Write code below that converts the word stored in <code>input_word</code> into
+Pig Latin.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">input_word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;ay&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[30]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;igpay&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="Extra-Practice">Extra Practice<a class="anchor-link" href="#Extra-Practice">&#182;</a></h2><p>When you see an "Extra Practice" section, these are optional questions
+meant to stretch your understanding. They are often geared for students
+with prior programming experience.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="String-methods">String methods<a class="anchor-link" href="#String-methods">&#182;</a></h3><p>String objects in Python have various methods associated with them. To call
+a method, add a <code>.</code> to the end of the string followed by the method name.
+For example,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;My name is taylor arnold.&quot;</span>
+<span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[31]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;MY NAME IS TAYLOR ARNOLD.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the blocks below, try the methods <code>lower</code>, <code>title</code>, <code>captialize</code>, and
+<code>swapcase</code>. All of these change the letters in the string between captial
+and non-captial versions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[32]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;my name is taylor arnold.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[33]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;My Name Is Taylor Arnold.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[34]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;My name is taylor arnold.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">swapcase</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[35]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;mY NAME IS TAYLOR ARNOLD.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, take the strings <code>x</code> and <code>y</code> here:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;to be or not to be&quot;</span>
+<span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;tO bE oR nOT tO bE&quot;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the given string methods above to convert <code>x</code> into the same
+string as <code>y</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">swapcase</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">z</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">z</span>
 </pre></div>
 
 </div>
@@ -12502,11 +13026,22 @@ it should load the file directly.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
+<pre>True
 </pre>
 </div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[37]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;tO bE oR nOT tO bE&#39;</pre>
+</div>
+
 </div>
 
 </div>
@@ -12517,13 +13052,149 @@ Pulling data from MediaWiki API...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Open your 'data' directory and look in the directory for 'en'.
-Make sure that your data shows up correctly. Also make sure that
-re-running the code does not print out the message
-"Pulling data from MediaWiki API...".</p>
+<h3 id="the-is-function">the <code>is</code> function<a class="anchor-link" href="#the-is-function">&#182;</a></h3><p>Run the following block of code. You should see that the end result returns the value of <code>True</code>, as you might expect:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">x</span> <span class="ow">is</span> <span class="mi">42</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[38]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But now, run the following block of code instead. You should find that the result returns <code>False</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">420</span>
+<span class="n">x</span> <span class="ow">is</span> <span class="mi">420</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[39]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What in the world is going on here? Hint: you might try looking up what the <code>is</code> function does in Python.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer:</strong> This is a tricky question that gets at the internals of Python. From
+the <a href="https://docs.python.org/3/c-api/long.html">docs</a>:</p>
+<blockquote><p>The current implementation keeps an array of integer objects for all integers
+between -5 and 256, when you create an int in that range you actually just get
+back a reference to the existing object. So it should be possible to change the
+value of 1. I suspect the behaviour of Python in this case is undefined. :-)</p>
+</blockquote>
+<p>Using the <code>id</code> function, which shows the memory address for any integer, you can
+see that the integers -5 to 256 are in fact in adjacent memory locations (keeping
+in mind that it takes 32 bytes to store to the integer).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">256</span><span class="p">):</span>
+    <span class="n">diff</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">id</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">-</span> <span class="nb">id</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0, 43.0, 44.0, 45.0, 46.0, 47.0, 48.0, 49.0, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 61.0, 62.0, 63.0, 64.0, 65.0, 66.0, 67.0, 68.0, 69.0, 70.0, 71.0, 72.0, 73.0, 74.0, 75.0, 76.0, 77.0, 78.0, 79.0, 80.0, 81.0, 82.0, 83.0, 84.0, 85.0, 86.0, 87.0, 88.0, 89.0, 90.0, 91.0, 92.0, 93.0, 94.0, 95.0, 96.0, 97.0, 98.0, 99.0, 100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0, 130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0, 140.0, 141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0, 158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0, 171.0, 172.0, 173.0, 174.0, 175.0, 176.0, 177.0, 178.0, 179.0, 180.0, 181.0, 182.0, 183.0, 184.0, 185.0, 186.0, 187.0, 188.0, 189.0, 190.0, 191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0, 201.0, 202.0, 203.0, 204.0, 205.0, 206.0, 207.0, 208.0, 209.0, 210.0, 211.0, 212.0, 213.0, 214.0, 215.0, 216.0, 217.0, 218.0, 219.0, 220.0, 221.0, 222.0, 223.0, 224.0, 225.0, 226.0, 227.0, 228.0, 229.0, 230.0, 231.0, 232.0, 233.0, 234.0, 235.0, 236.0, 237.0, 238.0, 239.0, 240.0, 241.0, 242.0, 243.0, 244.0, 245.0, 246.0, 247.0, 248.0, 249.0, 250.0, 251.0, 252.0, 253.0, 254.0, 255.0, 256.0, 257.0, 258.0, 259.0, 260.0]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>

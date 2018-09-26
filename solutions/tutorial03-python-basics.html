@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>tutorial08-save-mediawiki</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>tutorial03-python-basics</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,8 +11775,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tutorial-08:-Saving-MediaWiki-Requests">Tutorial 08: Saving MediaWiki Requests<a class="anchor-link" href="#Tutorial-08:-Saving-MediaWiki-Requests">&#182;</a></h2><p>Today's note walk you through building a function to save
-MediaWiki requests on your machine.</p>
+<h2 id="Tutorial-03:-Python-Basics">Tutorial 03: Python Basics<a class="anchor-link" href="#Tutorial-03:-Python-Basics">&#182;</a></h2><p>These notes are adapted from the Python tutorial available at: <a href="https://docs.python.org/3/tutorial/">https://docs.python.org/3/tutorial/</a>.</p>
+<p>Here we see the basic functionality of Python by using it as a fancy calculator.</p>
 
 </div>
 </div>
@@ -11785,9 +11785,7 @@ MediaWiki requests on your machine.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's start by loading four modules that we will need for this
-tutorial. I will also grab by name the function <code>join</code> as we will
-need to use it quite frequently.</p>
+<h3 id="Comments">Comments<a class="anchor-link" href="#Comments">&#182;</a></h3><p>Many of the examples in these tutorials, even those entered at the interactive prompt, include comments. Comments in Python start with the hash character, #, and extend to the end of the physical line. A comment may appear at the start of a line or following whitespace or code, but not within a string literal. A hash character within a string literal is just a hash character. Since comments are to clarify code and are not interpreted by Python, they may be omitted when typing in examples.</p>
 
 </div>
 </div>
@@ -11797,12 +11795,10 @@ need to use it quite frequently.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">join</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># this is the first comment</span>
+<span class="n">spam</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># and this is the second comment</span>
+          <span class="c1"># ... and now a third!</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;# This is not a comment because it&#39;s inside quotes.&quot;</span>
 </pre></div>
 
 </div>
@@ -11814,10 +11810,7 @@ need to use it quite frequently.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Making-the-request">Making the request<a class="anchor-link" href="#Making-the-request">&#182;</a></h3><p>Before we wrap up any fancy functions, let's replicate
-the API request that we made in your browser. Start here
-by defining the <code>lang</code> (language), the <code>base_api_url</code>,
-and the <code>default_query</code> parameters:</p>
+<h3 id="Using-Python-as-a-Calculator">Using Python as a Calculator<a class="anchor-link" href="#Using-Python-as-a-Calculator">&#182;</a></h3><p>The interpreter acts as a simple calculator: you can type an expression at it and it will write the value. Expression syntax is straightforward: the operators +, -, * and / work just like in most other languages (for example, Pascal or C); parentheses (()) can be used for grouping. For example:</p>
 
 </div>
 </div>
@@ -11827,59 +11820,7 @@ and the <code>default_query</code> parameters:</p>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lang</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
-<span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-<span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's define the page title for the University of Richmond
-(and convert spaces to underscores if needed) and then build the
-full URL string:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_title</span> <span class="o">=</span> <span class="s2">&quot;University of Richmond&quot;</span>
-<span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-<span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Pay attention to how I am using the <code>+</code> operator to build a larger
-string from individual variables. The variable <code>url</code> should now 
-contain the same URL request that we ran in the browser.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
 </pre></div>
 
 </div>
@@ -11892,38 +11833,93 @@ contain the same URL request that we ran in the browser.</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[2]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>https://en.wikipedia.org/w/api.php?action=parse&amp;format=json&amp;page=University_of_Richmond
-</pre>
-</div>
-</div>
 
-</div>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4</pre>
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we are ready to make a request Wikipedia asking for the page
-level data. The format here is exactly the same as requesting an
-HTML page. You should get a response code of '200' indicating a
-succesful request.</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">50</span> <span class="o">-</span> <span class="mi">5</span><span class="o">*</span><span class="mi">6</span>
+</pre></div>
 
 </div>
 </div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>20</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="mi">50</span> <span class="o">-</span> <span class="mi">5</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">r</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">8</span> <span class="o">/</span> <span class="mi">5</span>              <span class="c1"># division always returns a floating point number</span>
 </pre></div>
 
 </div>
@@ -11942,7 +11938,7 @@ succesful request.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;Response [200]&gt;</pre>
+<pre>1.6</pre>
 </div>
 
 </div>
@@ -11955,11 +11951,8 @@ succesful request.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, because the data is in JSON format we need to use slightly
-different code to grab the data. Here, I'm calling the json method
-of the request and selecting just the 'parse' parameter (remember
-in your browser that the parse element was the top of the JSON 
-tree).</p>
+<p>The integer numbers (e.g. 2, 4, 20) have type int, the ones with a fractional part (e.g. 5.0, 1.6) have type float.</p>
+<p>Division (/) always returns a float. To do floor division and get an integer result (discarding any fractional result) you can use the // operator; to calculate the remainder you can use %:</p>
 
 </div>
 </div>
@@ -11969,55 +11962,73 @@ tree).</p>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">17</span> <span class="o">/</span> <span class="mi">3</span>             <span class="c1"># classic division returns a float</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5.666666666666667</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If we print this out, you'll see that it contains the same 
-information as you had in your browser (but probably not 
-formatted as well):</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print(page_data)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">17</span> <span class="o">//</span> <span class="mi">3</span>            <span class="c1"># floor division discards the fractional part</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Dictionaries-(briefly)">Dictionaries (briefly)<a class="anchor-link" href="#Dictionaries-(briefly)">&#182;</a></h3><p>The data we call JSON in represented as an object type known
-as a dictionary (dict for short) in Python:</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">page_data</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">17</span> <span class="o">%</span> <span class="mi">3</span>             <span class="c1"># the % operator returns the remainder of the division</span>
 </pre></div>
 
 </div>
@@ -12036,7 +12047,7 @@ as a dictionary (dict for short) in Python:</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>dict</pre>
+<pre>2</pre>
 </div>
 
 </div>
@@ -12044,26 +12055,13 @@ as a dictionary (dict for short) in Python:</p>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll talk more about dictionaries next class, but I thought
-it would be useful for you to at least hear the term and see
-them in action today. You can access the 'elements' of the dictionary
-by using square brackets and the name of the element that you want
-to locate. For example, here are all of the images on our page:</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">5</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span>          <span class="c1"># result * divisor + remainder</span>
 </pre></div>
 
 </div>
@@ -12082,13 +12080,7 @@ to locate. For example, here are all of the images on our page:</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;University_of_Richmond_seal.svg&#39;,
- &#39;UR_Shield.svg&#39;,
- &#39;Richmond-Rummell_View.jpg&#39;,
- &#39;BoatwrightTower.jpg&#39;,
- &#39;CommonsLake.jpg&#39;,
- &#39;Commons-logo.svg&#39;,
- &#39;Folder_Hexagonal_Icon.svg&#39;]</pre>
+<pre>17</pre>
 </div>
 
 </div>
@@ -12101,8 +12093,7 @@ to locate. For example, here are all of the images on our page:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And here are all of the external links on the UR Wikipedia
-page:</p>
+<p>With Python, it is possible to use the ** operator to calculate powers:</p>
 
 </div>
 </div>
@@ -12112,7 +12103,7 @@ page:</p>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;externallinks&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">5</span> <span class="o">**</span> <span class="mi">2</span>  <span class="c1"># 5 squared</span>
 </pre></div>
 
 </div>
@@ -12131,16 +12122,7 @@ page:</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://www.richmond.edu/about/motto.html&#39;,
- &#39;https://www.nacubo.org/-/media/Nacubo/Documents/EndowmentFiles/2017-Endowment-Market-Values.ashx?la=en&amp;hash=E71088CDC05C76FCA30072DA109F91BBC10B0290&#39;,
- &#39;http://ifx.richmond.edu/pdfs/factbook2015-16.pdf&#39;,
- &#39;http://ifx.richmond.edu/pdfs/FB2-Enrollment.pdf&#39;,
- &#39;https://web.archive.org/web/20150709201808/http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://news.richmond.edu/features/article/-/10822/did-you-know-the-ur-spider-a-bite-of-history.html&#39;,
- &#39;https://web.archive.org/web/20120927033702/http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.lva.virginia.gov/public/guides/opac/gilletteabout.htm&#39;]</pre>
+<pre>25</pre>
 </div>
 
 </div>
@@ -12148,39 +12130,36 @@ page:</p>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Next time we will see how to work with, save, and compute
-over these various elements.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Saving-a-dictionary-/-JSON-file">Saving a dictionary / JSON file<a class="anchor-link" href="#Saving-a-dictionary-/-JSON-file">&#182;</a></h3><p>First, let's just save our UR json file as a file under the
-tutorials directory on your laptop. The syntax below creates
-a file for <strong>w</strong>riting named "ur.json" and saves the variable
-data into the file.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span> <span class="o">**</span> <span class="mi">7</span>  <span class="c1"># 2 to the power of 7</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>128</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12189,10 +12168,7 @@ data into the file.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Go back to the file browser in Python and check that the file was
-created. Click on it and verify that the JSON data is available.</p>
-<p>Now, let's load the file back into Python. This time we open a
-file for <strong>r</strong>eading and save it as the object <code>new_data</code>.</p>
+<h3 id="Assigning-variables">Assigning variables<a class="anchor-link" href="#Assigning-variables">&#182;</a></h3><p>The equal sign (=) is used to assign a value to a variable. Afterwards, no result is displayed before the next interactive prompt:</p>
 
 </div>
 </div>
@@ -12202,11 +12178,32 @@ file for <strong>r</strong>eading and save it as the object <code>new_data</code
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-    <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">width</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">9</span>
+<span class="n">width</span> <span class="o">*</span> <span class="n">height</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>900</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12215,8 +12212,7 @@ file for <strong>r</strong>eading and save it as the object <code>new_data</code
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When you print out the object <code>new_data</code> it should contain
-the same information as the original data.</p>
+<p>If a variable is not “defined” (assigned a value), trying to use it will give you an error:</p>
 
 </div>
 </div>
@@ -12226,10 +12222,33 @@ the same information as the original data.</p>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># new_data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span>  <span class="c1"># try to access an undefined variable</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-13-6268bfea6a2c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>n  <span class="ansi-red-fg"># try to access an undefined variable</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;n&#39; is not defined</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12238,12 +12257,21 @@ the same information as the original data.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Correct-file-path">Correct file path<a class="anchor-link" href="#Correct-file-path">&#182;</a></h3><p>Now, we need a function that returns the corect path that a
-JSON file should be stored at based on its title and the Wikipedia
-language. This is a bit tricky, particularly if you want it to run
-correctly across various operating systems, so I'll just give you
-the correct code here. But, you should be able to understand most
-of the parts and what is going on.</p>
+<p>Make sure that you review these notes several times, particularly if you
+have not prior experience with programming.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="Practice">Practice<a class="anchor-link" href="#Practice">&#182;</a></h2><p>For these practice problems using Python as a calculator, we are
+going to approximate the trigonometric function $sin$ using a 
+Taylor series. To start, run the following block of code to load
+the <code>sin</code> function in Python (more on this next time):</p>
 
 </div>
 </div>
@@ -12253,33 +12281,7 @@ of the parts and what is going on.</p>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns local path to JSON file for Wikipeida page data</span>
-<span class="sd">    </span>
-<span class="sd">    This function is used to determine where the dump of a </span>
-<span class="sd">    call to the MediaWiki API, using the parse method, should</span>
-<span class="sd">    be stored. As an extra action, the function also checks that</span>
-<span class="sd">    the relevant directory exists and creates it if it does not.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string describing a relative path to file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">stat289_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-    
-    <span class="n">dir_name</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">stat289_base_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_name</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_name</span><span class="p">)</span>
-        
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">page_title</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dir_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">file_path</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span>
 </pre></div>
 
 </div>
@@ -12291,7 +12293,12 @@ of the parts and what is going on.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can test out that the function works as expected here:</p>
+<p>The Taylor series of $sin(x)$ around zero gives a first order
+approximation of:</p>
+<p>$$ sin(x) \approx x $$</p>
+<p>If you think about the shape of the <code>sin</code> function, this should
+make sense. In the next block of code define a variable named
+<code>x</code> and set this value to <code>0.1</code></p>
 
 </div>
 </div>
@@ -12301,56 +12308,23 @@ of the parts and what is going on.</p>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wiki_json_path</span><span class="p">(</span><span class="s2">&quot;Univeristy of Richmond&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;/Users/taylor/gh/stat289-fall-2018-statsmaths/data/en/Univeristy_of_Richmond.json&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Note</strong>: I believe this code works as given on Windows, but I was
-not able to test it directly. Please let me know if you have any
-issues with the code.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-the-MediaWiki-API">Using the MediaWiki API<a class="anchor-link" href="#Using-the-MediaWiki-API">&#182;</a></h3><p>Now, let's define a function that grabs the data from the
-MediaWiki API and either loads the file from your computer
-or pulls it from Wikipedia.</p>
-<p>We'll need this function a lot, and some of the details haven't
-been covered in the tutorials yet, so I'll provide the code 
-directly here. Notice that I've split the code into two parts
-to improve readability.</p>
+<p>Now, create a new variable <code>err</code> (for error) that computes the
+absolute error in the first order approximation of $sin(x)$ for
+the current value of x. Note that Python has the function <code>abs</code>
+to compute the absolute value. Print out the value of <code>err</code> at
+the end of the code chunk.</p>
 
 </div>
 </div>
@@ -12360,90 +12334,89 @@ to improve readability.</p>
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns URL to make parse request to the MediaWiki API</span>
-<span class="sd">        </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string giving the complete request URL.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-    <span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
-
-    <span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-    <span class="k">return</span> <span class="n">url</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">err</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0001665833531718508</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, in the code block below, combine the assignment of <code>x</code> and the
+calculation of <code>err</code> together. Copy this code five times, but set <code>x</code>
+to <code>0.2</code>, <code>0.3</code>, <code>0.4</code>, and <code>0.5</code>, running each chunk.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_wiki_json</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns JSON data as a dictionary for the Wikipedia page</span>
-<span class="sd">    </span>
-<span class="sd">    This function either loads a cached version of the page or,</span>
-<span class="sd">    if a local version of the page is not available, calls the</span>
-<span class="sd">    MediaWiki API directly.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A dictionary object with the complete parsed JSON data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    
-    <span class="c1"># if page does not exist, grab it from Wikipedia</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pulling data from MediaWiki API...&quot;</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">page_data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-            
-    <span class="c1"># read the JSON data from local filesystem</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-        <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">new_data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">err</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0001665833531718508</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Try to run the code using the chunk below. The first
-time its run it should print out a message; afterwards
-it should load the file directly.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Water&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">err</span>
 </pre></div>
 
 </div>
@@ -12456,36 +12429,362 @@ it should load the file directly.</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[18]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-</pre>
-</div>
-</div>
 
-</div>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0013306692049387947</pre>
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Test the function further by also grabbing the following pages.</p>
 
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;University of Virginia&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Commonwealth University&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Union University&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">err</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.004479793338660443</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">err</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0105816576913495</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">err</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.020574461395796995</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Describe the pattern you see above. Where is the approximation best?
+Where is worst? (Note: double click on the cell below to input your
+answer)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer:</strong> The error gets worse as x increases away from zero.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The third order approximation of $sin$ is given as:</p>
+<p>$$ sin(x) \approx x - \frac{x^3}{6} $$</p>
+<p>Again set <code>x</code> equal to <code>0.1</code>. Store the first order approximation
+error as the variable <code>err1</code> and the third order approximation as
+<code>err3</code>. Print out the value <code>err1/err3</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">err1</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">err3</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">err1</span><span class="o">/</span><span class="n">err3</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[22]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1999.4762379009107</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Describe in words what the value of the output above means.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer:</strong> It shows that the error of the third order approximation is 2000 times
+smaller than the first order approximation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="Extra-Practice">Extra Practice<a class="anchor-link" href="#Extra-Practice">&#182;</a></h2><p>When you see an "Extra Practice" section, these are optional questions
+meant to stretch your understanding. They are often geared for students
+with prior programming experience.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>More generally, we can write the sin function using an infinite Taylor series:</p>
+<p>$$ sin(x) = \sum_{n=0}^\infty (-1)^{n} \cdot \frac{x^{2n + 1}}{(2n + 1)!} $$</p>
+<p>We can get the factorial function from the math library:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">factorial</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's set a value for <code>x</code> and <code>n</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Write out the $n$'th term of this approximation in Python code using the variable
+<code>n</code> and variable <code>x</code>. You can assign $n$ to an integer in order to test it:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">n</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[25]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.008333333333333333</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you have some prior experience programming, try to write a function (a quick
+search will show the syntax in Python) called <code>sin_approx</code> that takes a value of <code>n</code> and a
+value of <code>x</code> and returns the n-term approximation to the <code>sin</code> function at <code>x</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sin_approx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">+=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">m</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">val</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>How well does your approximation work at <code>x=1</code> for various values of <code>n</code>?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">sin_approx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n=</span><span class="si">{0:d}</span><span class="s2">  err=</span><span class="si">{1:0.016f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -12502,9 +12801,16 @@ it should load the file directly.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
+<pre>n=0  err=0.8414709848078965
+n=1  err=0.1585290151921035
+n=2  err=0.0081376514745631
+n=3  err=0.0001956818587702
+n=4  err=0.0000027308396425
+n=5  err=0.0000000248922799
+n=6  err=0.0000000001598285
+n=7  err=0.0000000000007619
+n=8  err=0.0000000000000028
+n=9  err=0.0000000000000000
 </pre>
 </div>
 </div>
@@ -12517,13 +12823,90 @@ Pulling data from MediaWiki API...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Open your 'data' directory and look in the directory for 'en'.
-Make sure that your data shows up correctly. Also make sure that
-re-running the code does not print out the message
-"Pulling data from MediaWiki API...".</p>
+<p><strong>Answer</strong>: The error decreases as n increases, and is zero to 16 decimal places for
+n=9 (and presumably, higher values as well).</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, copy the <code>sin_approx</code> function below and add a <em>docstring</em> with the conventions
+according to <a href="https://www.python.org/dev/peps/pep-0257/">PEP 257</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sin_approx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute Taylor series approximation of the sine function.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        x: Numeric value at which to approximate the function.</span>
+<span class="sd">        n: Positive integer. Number of terms to include in the </span>
+<span class="sd">           Taylor series.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The numeric approximation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">+=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">m</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">val</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">sin_approx</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Help on function sin_approx in module __main__:
+
+sin_approx(x, n)
+    Compute Taylor series approximation of the sine function.
+    
+    Args:
+        x: Numeric value at which to approximate the function.
+        n: Positive integer. Number of terms to include in the 
+           Taylor series.
+    Returns:
+        The numeric approximation.
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>

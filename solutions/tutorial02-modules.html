@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>tutorial08-save-mediawiki</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>tutorial02-modules</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,8 +11775,12 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tutorial-08:-Saving-MediaWiki-Requests">Tutorial 08: Saving MediaWiki Requests<a class="anchor-link" href="#Tutorial-08:-Saving-MediaWiki-Requests">&#182;</a></h2><p>Today's note walk you through building a function to save
-MediaWiki requests on your machine.</p>
+<h2 id="Tutorial-02:-Python-Modules">Tutorial 02: Python Modules<a class="anchor-link" href="#Tutorial-02:-Python-Modules">&#182;</a></h2><p>Python modules provide a way of packaging code in a reusable way. Much later we will see
+how to create our own modules. For now, the focus will be on loading modules that provide
+basic functionality beyond the standard functions available in the base language. These
+consist of (1) the Python standard library, and (2) third-party software. The first are
+available on all systems running Python. The second need to be installed on top of the
+basic language.</p>
 
 </div>
 </div>
@@ -11785,9 +11789,10 @@ MediaWiki requests on your machine.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's start by loading four modules that we will need for this
-tutorial. I will also grab by name the function <code>join</code> as we will
-need to use it quite frequently.</p>
+<h3 id="Standard-library">Standard library<a class="anchor-link" href="#Standard-library">&#182;</a></h3><p>Let's start by loading the <code>sys</code> module, which provides access to some variables
+used or maintained by the interpreter and to functions that interact strongly
+with the interpreter.</p>
+<p>To load the module just run this:</p>
 
 </div>
 </div>
@@ -11797,12 +11802,7 @@ need to use it quite frequently.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">join</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 </pre></div>
 
 </div>
@@ -11814,10 +11814,10 @@ need to use it quite frequently.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Making-the-request">Making the request<a class="anchor-link" href="#Making-the-request">&#182;</a></h3><p>Before we wrap up any fancy functions, let's replicate
-the API request that we made in your browser. Start here
-by defining the <code>lang</code> (language), the <code>base_api_url</code>,
-and the <code>default_query</code> parameters:</p>
+<p>To run a function or access a variable inside an imported module, we use a notation
+that starts with the module name followed by a dot and then the object name, like
+this: <code>module.object</code>. For example, <code>sys</code> has an object called <code>version</code> that describes
+the version of Python that is currently installed. We can access it like this:</p>
 
 </div>
 </div>
@@ -11827,12 +11827,30 @@ and the <code>default_query</code> parameters:</p>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lang</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
-<span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-<span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">version</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;3.6.6 |Anaconda custom (64-bit)| (default, Jun 28 2018, 11:07:29) \n[GCC 4.2.1 Compatible Clang 4.0.1 (tags/RELEASE_401/final)]&#39;</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11841,9 +11859,10 @@ and the <code>default_query</code> parameters:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's define the page title for the University of Richmond
-(and convert spaces to underscores if needed) and then build the
-full URL string:</p>
+<p>Jupyter notebooks provide an easy way of seeing all of the objects in a module.
+Start by typing the module name followed be a dot, then hit the "Tab" button on
+your keyboard. A menu of all available objects will appear. Try that here and
+select an element to see what happens.</p>
 
 </div>
 </div>
@@ -11853,33 +11872,7 @@ full URL string:</p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_title</span> <span class="o">=</span> <span class="s2">&quot;University of Richmond&quot;</span>
-<span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-<span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Pay attention to how I am using the <code>+</code> operator to build a larger
-string from individual variables. The variable <code>url</code> should now 
-contain the same URL request that we ran in the browser.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sys</span><span class="o">.</span>
 </pre></div>
 
 </div>
@@ -11895,8 +11888,12 @@ contain the same URL request that we ran in the browser.</p>
 <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>https://en.wikipedia.org/w/api.php?action=parse&amp;format=json&amp;page=University_of_Richmond
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-3-57874cbcc37d&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    sys.</span>
+        ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
 </pre>
 </div>
 </div>
@@ -11909,10 +11906,35 @@ contain the same URL request that we ran in the browser.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we are ready to make a request Wikipedia asking for the page
-level data. The format here is exactly the same as requesting an
-HTML page. You should get a response code of '200' indicating a
-succesful request.</p>
+<h3 id="Anaconda-modules">Anaconda modules<a class="anchor-link" href="#Anaconda-modules">&#182;</a></h3><p>One benefit of using Anaconda Python is that it includes by default many scientific
+modules in addition to the standard library. One library that we will use heavily is
+called <code>numpy</code>. Let's try to load this library as well. Here we will use a slightly 
+different command that defines an alias for the library (<code>np</code> is a very common alias
+for <code>numpy</code> that you will see in many scripts and examples):</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, to access an object in the numpy module, we type <code>np</code> (rather than <code>numpy</code>)
+followed by a dot and then the object name. For example, we can test the absolute
+value function:</p>
 
 </div>
 </div>
@@ -11922,8 +11944,7 @@ succesful request.</p>
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">r</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11942,7 +11963,7 @@ succesful request.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;Response [200]&gt;</pre>
+<pre>100</pre>
 </div>
 
 </div>
@@ -11955,11 +11976,8 @@ succesful request.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, because the data is in JSON format we need to use slightly
-different code to grab the data. Here, I'm calling the json method
-of the request and selecting just the 'parse' parameter (remember
-in your browser that the parse element was the top of the JSON 
-tree).</p>
+<p>The python scientific stack, which we will use in most tutorials, consists of
+the following four modules and common aliases:</p>
 
 </div>
 </div>
@@ -11969,7 +11987,10 @@ tree).</p>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
 </div>
@@ -11981,9 +12002,37 @@ tree).</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If we print this out, you'll see that it contains the same 
-information as you had in your browser (but probably not 
-formatted as well):</p>
+<p>Make sure that these load okay an your system. We will learn more about these modules
+throughout the semester.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Additional-modules">Additional modules<a class="anchor-link" href="#Additional-modules">&#182;</a></h3><p>Anaconda Python comes with many of the modules needed for general purpose 
+data science work. We need to install several others to help us work with 
+text and image data.</p>
+<p>The way that you install these is slightly different depending on your
+platform.</p>
+<ul>
+<li><strong>macOS</strong> / <strong>linux</strong>: open up a terminal window and type <code>which conda</code>.
+If should print out a path with "anaconda3" in the name.</li>
+<li><strong>windows</strong>: anaconda python should have installed a program called
+Anaconda Prompt. Open this and type the commands below into the prompt.</li>
+</ul>
+<p>Now, the first thing we need to do is to update <code>conda</code>, the package manager
+for our version of Python. Do this by typing the following into the terminal
+or prompt:</p>
+
+<pre><code>conda update --all</code></pre>
+<p>Now, install the keras library with the following:</p>
+
+<pre><code>conda install keras</code></pre>
+<p>Once that is done, you should be able to load <code>keras</code> within this Python 
+notebook. Try it here:</p>
 
 </div>
 </div>
@@ -11993,10 +12042,28 @@ formatted as well):</p>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print(page_data)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">keras</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Using TensorFlow backend.
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12005,8 +12072,22 @@ formatted as well):</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Dictionaries-(briefly)">Dictionaries (briefly)<a class="anchor-link" href="#Dictionaries-(briefly)">&#182;</a></h3><p>The data we call JSON in represented as an object type known
-as a dictionary (dict for short) in Python:</p>
+<p>Note that it may give a warning or message; this is okay as long as you do not have
+an error. Now, proceed to install three other libraries (run each line one at a time,
+and select <code>y</code> if prompted with a qustion):</p>
+
+<pre><code>conda install gensim
+conda install opencv
+conda install spacy
+conda install networkx</code></pre>
+<p>Then, run these using the <code>pip</code> installer:</p>
+
+<pre><code>pip install --upgrade pip
+pip install pyLDAvis</code></pre>
+<p><strong>Note:</strong> I fully expect some of you to have errors with some of these packages.
+Don't get too frustrated. I am doing this now, well before we need any of these 
+so that I have plenty of time to help you.</p>
+<p>Finally, check that each package you installed can be loaded ok:</p>
 
 </div>
 </div>
@@ -12016,194 +12097,59 @@ as a dictionary (dict for short) in Python:</p>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">page_data</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gensim</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>dict</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll talk more about dictionaries next class, but I thought
-it would be useful for you to at least hear the term and see
-them in action today. You can access the 'elements' of the dictionary
-by using square brackets and the name of the element that you want
-to locate. For example, here are all of the images on our page:</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">cv2</span>       <span class="c1"># this is the name of the opencv library</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[9]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;University_of_Richmond_seal.svg&#39;,
- &#39;UR_Shield.svg&#39;,
- &#39;Richmond-Rummell_View.jpg&#39;,
- &#39;BoatwrightTower.jpg&#39;,
- &#39;CommonsLake.jpg&#39;,
- &#39;Commons-logo.svg&#39;,
- &#39;Folder_Hexagonal_Icon.svg&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>And here are all of the external links on the UR Wikipedia
-page:</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;externallinks&#39;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://www.richmond.edu/about/motto.html&#39;,
- &#39;https://www.nacubo.org/-/media/Nacubo/Documents/EndowmentFiles/2017-Endowment-Market-Values.ashx?la=en&amp;hash=E71088CDC05C76FCA30072DA109F91BBC10B0290&#39;,
- &#39;http://ifx.richmond.edu/pdfs/factbook2015-16.pdf&#39;,
- &#39;http://ifx.richmond.edu/pdfs/FB2-Enrollment.pdf&#39;,
- &#39;https://web.archive.org/web/20150709201808/http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://communications.richmond.edu/marks/colors.html&#39;,
- &#39;http://news.richmond.edu/features/article/-/10822/did-you-know-the-ur-spider-a-bite-of-history.html&#39;,
- &#39;https://web.archive.org/web/20120927033702/http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.dhr.virginia.gov/registers/Cities/Richmond/127-0045_Columbia_1982_Final_Nomination.pdf&#39;,
- &#39;http://www.lva.virginia.gov/public/guides/opac/gilletteabout.htm&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Next time we will see how to work with, save, and compute
-over these various elements.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Saving-a-dictionary-/-JSON-file">Saving a dictionary / JSON file<a class="anchor-link" href="#Saving-a-dictionary-/-JSON-file">&#182;</a></h3><p>First, let's just save our UR json file as a file under the
-tutorials directory on your laptop. The syntax below creates
-a file for <strong>w</strong>riting named "ur.json" and saves the variable
-data into the file.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Go back to the file browser in Python and check that the file was
-created. Click on it and verify that the JSON data is available.</p>
-<p>Now, let's load the file back into Python. This time we open a
-file for <strong>r</strong>eading and save it as the object <code>new_data</code>.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;ur.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-    <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pyLDAvis</span>
 </pre></div>
 
 </div>
@@ -12215,8 +12161,18 @@ file for <strong>r</strong>eading and save it as the object <code>new_data</code
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When you print out the object <code>new_data</code> it should contain
-the same information as the original data.</p>
+<p>I just tested all of these on my computer and they worked fine. If you run into
+an issues please let me as soon as possible!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Installing-data">Installing data<a class="anchor-link" href="#Installing-data">&#182;</a></h3><p>The <code>keras</code> and <code>spacy</code> modules also need some external data. Let's
+try to load those now to make sure everything is working as expected.</p>
 
 </div>
 </div>
@@ -12226,7 +12182,9 @@ the same information as the original data.</p>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># new_data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">keras.applications</span>
+
+<span class="n">vgg_model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">vgg16</span><span class="o">.</span><span class="n">VGG16</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12238,12 +12196,7 @@ the same information as the original data.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Correct-file-path">Correct file path<a class="anchor-link" href="#Correct-file-path">&#182;</a></h3><p>Now, we need a function that returns the corect path that a
-JSON file should be stored at based on its title and the Wikipedia
-language. This is a bit tricky, particularly if you want it to run
-correctly across various operating systems, so I'll just give you
-the correct code here. But, you should be able to understand most
-of the parts and what is going on.</p>
+<p>And for spacy, run the following:</p>
 
 </div>
 </div>
@@ -12253,36 +12206,34 @@ of the parts and what is going on.</p>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns local path to JSON file for Wikipeida page data</span>
-<span class="sd">    </span>
-<span class="sd">    This function is used to determine where the dump of a </span>
-<span class="sd">    call to the MediaWiki API, using the parse method, should</span>
-<span class="sd">    be stored. As an extra action, the function also checks that</span>
-<span class="sd">    the relevant directory exists and creates it if it does not.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string describing a relative path to file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">stat289_base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-    
-    <span class="n">dir_name</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">stat289_base_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_name</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_name</span><span class="p">)</span>
-        
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">page_title</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dir_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">file_path</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spacy</span><span class="o">.</span><span class="n">cli</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<span class="ansi-yellow-intense-fg">    Linking successful</span>
+    /anaconda3/lib/python3.6/site-packages/en_core_web_sm --&gt;
+    /anaconda3/lib/python3.6/site-packages/spacy/data/en
+
+    You can now load the model via spacy.load(&#39;en&#39;)
+
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12291,7 +12242,20 @@ of the parts and what is going on.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can test out that the function works as expected here:</p>
+<p>Again, please let me know if you have any trouble with these steps. I'd like to
+figure them out before we actually need these libraries.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2 id="Practice">Practice<a class="anchor-link" href="#Practice">&#182;</a></h2><p>There is not much to practice here, but let's see how to
+explore a module in Python. First, import the <code>platform</code>
+module:</p>
 
 </div>
 </div>
@@ -12301,56 +12265,21 @@ of the parts and what is going on.</p>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wiki_json_path</span><span class="p">(</span><span class="s2">&quot;Univeristy of Richmond&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">platform</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;/Users/taylor/gh/stat289-fall-2018-statsmaths/data/en/Univeristy_of_Richmond.json&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Note</strong>: I believe this code works as given on Windows, but I was
-not able to test it directly. Please let me know if you have any
-issues with the code.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-the-MediaWiki-API">Using the MediaWiki API<a class="anchor-link" href="#Using-the-MediaWiki-API">&#182;</a></h3><p>Now, let's define a function that grabs the data from the
-MediaWiki API and either loads the file from your computer
-or pulls it from Wikipedia.</p>
-<p>We'll need this function a lot, and some of the details haven't
-been covered in the tutorials yet, so I'll provide the code 
-directly here. Notice that I've split the code into two parts
-to improve readability.</p>
+<p>Now, run the command <code>dir(platform)</code> to see all of the functions in
+the <code>os</code> module. This is the same as using the <code>.</code> and tab
+notation above.</p>
 
 </div>
 </div>
@@ -12360,69 +12289,101 @@ to improve readability.</p>
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns URL to make parse request to the MediaWiki API</span>
-<span class="sd">        </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A string giving the complete request URL.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">page_title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">page_title</span><span class="p">)</span>
-    <span class="n">base_api_url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span> <span class="o">+</span> <span class="n">lang</span> <span class="o">+</span> <span class="s1">&#39;.wikipedia.org/w/api.php&#39;</span>
-    <span class="n">default_query</span> <span class="o">=</span> <span class="s1">&#39;action=parse&amp;format=json&amp;&#39;</span>
-
-    <span class="n">url</span> <span class="o">=</span> <span class="n">base_api_url</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">default_query</span> <span class="o">+</span> <span class="s2">&quot;page=&quot;</span> <span class="o">+</span> <span class="n">page_title</span>
-    <span class="k">return</span> <span class="n">url</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dir</span><span class="p">(</span><span class="n">platform</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;DEV_NULL&#39;,
+ &#39;_UNIXCONFDIR&#39;,
+ &#39;_WIN32_CLIENT_RELEASES&#39;,
+ &#39;_WIN32_SERVER_RELEASES&#39;,
+ &#39;__builtins__&#39;,
+ &#39;__cached__&#39;,
+ &#39;__copyright__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__file__&#39;,
+ &#39;__loader__&#39;,
+ &#39;__name__&#39;,
+ &#39;__package__&#39;,
+ &#39;__spec__&#39;,
+ &#39;__version__&#39;,
+ &#39;_default_architecture&#39;,
+ &#39;_dist_try_harder&#39;,
+ &#39;_follow_symlinks&#39;,
+ &#39;_ironpython26_sys_version_parser&#39;,
+ &#39;_ironpython_sys_version_parser&#39;,
+ &#39;_java_getprop&#39;,
+ &#39;_libc_search&#39;,
+ &#39;_linux_distribution&#39;,
+ &#39;_lsb_release_version&#39;,
+ &#39;_mac_ver_xml&#39;,
+ &#39;_node&#39;,
+ &#39;_norm_version&#39;,
+ &#39;_parse_release_file&#39;,
+ &#39;_platform&#39;,
+ &#39;_platform_cache&#39;,
+ &#39;_pypy_sys_version_parser&#39;,
+ &#39;_release_filename&#39;,
+ &#39;_release_version&#39;,
+ &#39;_supported_dists&#39;,
+ &#39;_sys_version&#39;,
+ &#39;_sys_version_cache&#39;,
+ &#39;_sys_version_parser&#39;,
+ &#39;_syscmd_file&#39;,
+ &#39;_syscmd_uname&#39;,
+ &#39;_syscmd_ver&#39;,
+ &#39;_uname_cache&#39;,
+ &#39;_ver_output&#39;,
+ &#39;architecture&#39;,
+ &#39;collections&#39;,
+ &#39;dist&#39;,
+ &#39;java_ver&#39;,
+ &#39;libc_ver&#39;,
+ &#39;linux_distribution&#39;,
+ &#39;mac_ver&#39;,
+ &#39;machine&#39;,
+ &#39;node&#39;,
+ &#39;os&#39;,
+ &#39;platform&#39;,
+ &#39;popen&#39;,
+ &#39;processor&#39;,
+ &#39;python_branch&#39;,
+ &#39;python_build&#39;,
+ &#39;python_compiler&#39;,
+ &#39;python_implementation&#39;,
+ &#39;python_revision&#39;,
+ &#39;python_version&#39;,
+ &#39;python_version_tuple&#39;,
+ &#39;re&#39;,
+ &#39;release&#39;,
+ &#39;subprocess&#39;,
+ &#39;sys&#39;,
+ &#39;system&#39;,
+ &#39;system_alias&#39;,
+ &#39;uname&#39;,
+ &#39;uname_result&#39;,
+ &#39;version&#39;,
+ &#39;warnings&#39;,
+ &#39;win32_ver&#39;]</pre>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_wiki_json</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns JSON data as a dictionary for the Wikipedia page</span>
-<span class="sd">    </span>
-<span class="sd">    This function either loads a cached version of the page or,</span>
-<span class="sd">    if a local version of the page is not available, calls the</span>
-<span class="sd">    MediaWiki API directly.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        page_title: A string containing the page title.</span>
-<span class="sd">        lang: Two letter language code describing the Wikipedia</span>
-<span class="sd">            language used to grab the data.</span>
-<span class="sd">            </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        A dictionary object with the complete parsed JSON data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">wiki_json_path</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-    
-    <span class="c1"># if page does not exist, grab it from Wikipedia</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pulling data from MediaWiki API...&quot;</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">get_mediawiki_request</span><span class="p">(</span><span class="n">page_title</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="n">page_data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;parse&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">page_data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-            
-    <span class="c1"># read the JSON data from local filesystem</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
-        <span class="n">new_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">new_data</span>
-</pre></div>
 
 </div>
+
 </div>
 </div>
 
@@ -12431,9 +12392,74 @@ to improve readability.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Try to run the code using the chunk below. The first
-time its run it should print out a message; afterwards
-it should load the file directly.</p>
+<p>Let's say you are interested in the function <code>platform.system</code>. To
+find out more about this function, type the command
+<code>help(platform.system)</code> in the code block below:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Help on function system in module platform:
+
+system()
+    Returns the system/OS name, e.g. &#39;Linux&#39;, &#39;Windows&#39; or &#39;Java&#39;.
+    
+    An empty string is returned if the value cannot be determined.
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Based on the help page, what do you think would be the result of
+running <code>platform.system</code> on your machine?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer:</strong> I would expect it to return 'macOS'</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Try running the command below:</p>
 
 </div>
 </div>
@@ -12443,7 +12469,7 @@ it should load the file directly.</p>
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Water&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12456,57 +12482,15 @@ it should load the file directly.</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[18]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Test the function further by also grabbing the following pages.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;University of Virginia&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Commonwealth University&quot;</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">get_wiki_json</span><span class="p">(</span><span class="s2">&quot;Virginia Union University&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
 
 
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
-Pulling data from MediaWiki API...
-</pre>
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Darwin&#39;</pre>
 </div>
+
 </div>
 
 </div>
@@ -12517,10 +12501,17 @@ Pulling data from MediaWiki API...
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Open your 'data' directory and look in the directory for 'en'.
-Make sure that your data shows up correctly. Also make sure that
-re-running the code does not print out the message
-"Pulling data from MediaWiki API...".</p>
+<p>Does the answer match your expectation? If not, try to figure out why!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Answer:</strong> Not exactly. It returns the name 'Darwin', the name of the open source operating
+system created by apple.</p>
 
 </div>
 </div>
