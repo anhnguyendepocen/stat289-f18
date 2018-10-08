@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>tutorial20-wikitext-explorer</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>tutorial21-wikitext-explorer-customize</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,12 +11775,10 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tutorial-20:-Wiki-Text-Explorer">Tutorial 20: Wiki Text Explorer<a class="anchor-link" href="#Tutorial-20:-Wiki-Text-Explorer">&#182;</a></h2><p>Its good to understand all of the ideas in Tutorial 19. However, I have
-already wrapped up all of the functionality show there in a helpful new
-refactoring of the <code>wikitext</code> module. That is, you'll get to focus on
-the text analysis itself and not just the code (yay!).</p>
-<p>Make sure that you download a new version of <code>wiki.py</code>, <code>iplot.py</code> and
-<code>wikitext.py</code> and load all of them into Python:</p>
+<h2 id="Tutorial-21:-Customizing-wikitext-exlorer">Tutorial 21: Customizing wikitext exlorer<a class="anchor-link" href="#Tutorial-21:-Customizing-wikitext-exlorer">&#182;</a></h2><p>The third and four projects require you to build a corpus of pages
+and apply the Wiki Text Explorer code to this corpus. Today I will
+show you a few other details for putting together your projects.
+Start by loading the</p>
 
 </div>
 </div>
@@ -11813,7 +11811,7 @@ the text analysis itself and not just the code (yay!).</p>
 
     <div class="bk-root">
         <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="a071bd56-6a78-498f-9d55-5a179beaa65e">Loading BokehJS ...</span>
+        <span id="3c2030be-6e3c-43a8-bb40-b52700eb2de2">Loading BokehJS ...</span>
     </div>
 </div>
 
@@ -11827,10 +11825,10 @@ the text analysis itself and not just the code (yay!).</p>
 
 
 
-<div id="30c14f5a-c21a-4455-930b-9c1b2991694c"></div>
+<div id="6bbf372e-9c9e-48f6-9bad-1dbe69ea726a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#30c14f5a-c21a-4455-930b-9c1b2991694c');
+var element = $('#6bbf372e-9c9e-48f6-9bad-1dbe69ea726a');
 
 (function(root) {
   function now() {
@@ -11990,7 +11988,7 @@ var element = $('#30c14f5a-c21a-4455-930b-9c1b2991694c');
      "</div>"}};
 
   function display_loaded() {
-    var el = document.getElementById("a071bd56-6a78-498f-9d55-5a179beaa65e");
+    var el = document.getElementById("3c2030be-6e3c-43a8-bb40-b52700eb2de2");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -12044,9 +12042,9 @@ var element = $('#30c14f5a-c21a-4455-930b-9c1b2991694c');
       console.log("Bokeh: injecting script tag for BokehJS library: ", url);
       document.getElementsByTagName("head")[0].appendChild(s);
     }
-  };var element = document.getElementById("a071bd56-6a78-498f-9d55-5a179beaa65e");
+  };var element = document.getElementById("3c2030be-6e3c-43a8-bb40-b52700eb2de2");
   if (element == null) {
-    console.log("Bokeh: ERROR: autoload.js configured with elementid 'a071bd56-6a78-498f-9d55-5a179beaa65e' but no matching script tag was found. ")
+    console.log("Bokeh: ERROR: autoload.js configured with elementid '3c2030be-6e3c-43a8-bb40-b52700eb2de2' but no matching script tag was found. ")
     return false;
   }
 
@@ -12083,7 +12081,7 @@ var element = $('#30c14f5a-c21a-4455-930b-9c1b2991694c');
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      var cell = $(document.getElementById("a071bd56-6a78-498f-9d55-5a179beaa65e")).parents('.cell').data().cell;
+      var cell = $(document.getElementById("3c2030be-6e3c-43a8-bb40-b52700eb2de2")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
 
@@ -12127,8 +12125,8 @@ var element = $('#30c14f5a-c21a-4455-930b-9c1b2991694c');
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Get-some-data">Get some data<a class="anchor-link" href="#Get-some-data">&#182;</a></h3><p>For today, make sure that you download the following data. Uncomment the line,
-run it, and then recomment it so that it only runs once.</p>
+<h3 id="Getting-internal-links">Getting internal links<a class="anchor-link" href="#Getting-internal-links">&#182;</a></h3><p>The new <code>wikitext</code> module include a function <code>get_internal_links</code> that
+takes a link to a Wikipedia page and returns a dictionary with three elements.</p>
 
 </div>
 </div>
@@ -12138,55 +12136,8 @@ run it, and then recomment it so that it only runs once.</p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#wiki.bulk_download(&#39;history-us&#39;, force=True)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-WikiCorpus-class">The WikiCorpus class<a class="anchor-link" href="#The-WikiCorpus-class">&#182;</a></h3><p>I have wrapped up all of the text analysis tools we should need for the next
-few weeks in a single class called <code>WikiCorpus</code>. Let's grab a set of links to
-start with:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">links</span> <span class="o">=</span> <span class="n">wikitext</span><span class="o">.</span><span class="n">get_internal_links</span><span class="p">(</span><span class="s1">&#39;History_of_the_United_States&#39;</span><span class="p">)[</span><span class="s1">&#39;ilinks_p&#39;</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now create a <code>WikiCorpus</code> object as follows (it's running a lot of code;
-it make take a minute or two to run):</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wcorp</span> <span class="o">=</span> <span class="n">wikitext</span><span class="o">.</span><span class="n">WikiCorpus</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">wcorp</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">links_us</span> <span class="o">=</span> <span class="n">wikitext</span><span class="o">.</span><span class="n">get_internal_links</span><span class="p">(</span><span class="s1">&#39;History_of_the_United_States&#39;</span><span class="p">)</span>
+<span class="n">links_us</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12199,13 +12150,15 @@ it make take a minute or two to run):</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>WikiCorpus object with &#39;739&#39; documents and lexicon with &#39;23243&#39; terms.
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>dict_keys([&#39;ilinks&#39;, &#39;ilinks_p&#39;, &#39;ilinks_li&#39;])</pre>
 </div>
+
 </div>
 
 </div>
@@ -12216,10 +12169,69 @@ it make take a minute or two to run):</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You should see that it has pulled 282 documents are over 9000 terms. The object
-has methods and attributes that provide text analysis tools such as document
-similarity and LDA topics. An easier way to see all of this is to simply create
-a Wiki Text Explorer webpage like this:</p>
+<p>The element 'ilinks' includes all links given on the page. The 'ilinks_p' are
+all links contained within paragraph tags, and 'ilinks_li' are all links given
+inside of list items (before bullet points). We can use all of these to build
+a corpus of interest for your projects.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Customizing-topic-and-cluster-names">Customizing topic and cluster names<a class="anchor-link" href="#Customizing-topic-and-cluster-names">&#182;</a></h3><p>Now, let's say that you've created a <code>WikiCorpus</code> object, such as this one:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wcorp</span> <span class="o">=</span> <span class="n">wikitext</span><span class="o">.</span><span class="n">WikiCorpus</span><span class="p">(</span><span class="n">links_us</span><span class="p">[</span><span class="s1">&#39;ilinks_p&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There is a method provided by <code>wcorp</code> that produces a dictionary object with
+template names for all of the topics and clusters in our corpus. Here we will
+use it to store the file as a file named 'history-us.json':</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;history-us.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">wcorp</span><span class="o">.</span><span class="n">json_meta_template</span><span class="p">(),</span> <span class="n">fout</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, open the file through Jupyter notebook (or your favorite text editor). Change
+the name of the first topic and now create the Text Explorer output:</p>
 
 </div>
 </div>
@@ -12229,7 +12241,7 @@ a Wiki Text Explorer webpage like this:</p>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wikitext</span><span class="o">.</span><span class="n">wiki_text_explorer</span><span class="p">(</span><span class="n">wcorp</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wikitext</span><span class="o">.</span><span class="n">wiki_text_explorer</span><span class="p">(</span><span class="n">wcorp</span><span class="p">,</span> <span class="n">input_file</span><span class="o">=</span><span class="s2">&quot;history-us.json&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12241,60 +12253,11 @@ a Wiki Text Explorer webpage like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, you should see a new directory called 'text-explore' in your tutorial folder.
-Open the index page in your browser and play around with the tabs at the top. Notice
-that a lot of things are clickable links to other parts of the page. Spend some real
-time understanding what is going on with each of the components in the Exporer.</p>
+<p>You should see that the page now names the first topic whatever you renamed it to.
+A large part of the next project involves constructing names for all of your topics.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Modify-the-WikiCorpus-object">Modify the WikiCorpus object<a class="anchor-link" href="#Modify-the-WikiCorpus-object">&#182;</a></h3><p>There are many options that you can set that change how the WikiCorpus object
-is constructed. The two most powerful change the number of topics and clusters
-created by the module. Here I will make the number of topics and clusters 20
-instead of the default 40:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wcorp</span> <span class="o">=</span> <span class="n">wikitext</span><span class="o">.</span><span class="n">WikiCorpus</span><span class="p">(</span><span class="n">links</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num_clusters</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, re-create the page and see how the results change:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wikitext</span><span class="o">.</span><span class="n">wiki_text_explorer</span><span class="p">(</span><span class="n">wcorp</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
     </div>
   </div>
