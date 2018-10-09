@@ -109,14 +109,16 @@ def wiki_text_explorer(wcorp, input_file=None, output_dir="text-explore"):
     topic_names = name_dict['topic_names']
     clust_names = name_dict['clust_names']
 
+    if not os.path.exists(os.path.join(output_dir, 'index.html')):
+        with open(os.path.join(output_dir, 'index.html'), 'w') as fin:
+            xml_page = _get_index_page(wcorp, topic_names)
+            page = minidom.parseString(tostring(xml_page))
+            page = page.toprettyxml(indent=" ")
+            fin.write("<!DOCTYPE html>\n")
+            fin.write(page[23:])
+
     with open(os.path.join(output_dir, 'docs.html'), 'w') as fin:
         xml_page = _get_doc_page(wcorp, topic_names, clust_names)
-        page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
-        fin.write("<!DOCTYPE html>\n")
-        fin.write(page[23:])
-
-    with open(os.path.join(output_dir, 'index.html'), 'w') as fin:
-        xml_page = _get_index_page(wcorp, topic_names)
         page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
         fin.write("<!DOCTYPE html>\n")
         fin.write(page[23:])

@@ -17,7 +17,7 @@ import zipfile
 import requests
 
 
-__version__ = 5
+__version__ = 6
 
 
 def wiki_json_path(page_title, lang='en'):

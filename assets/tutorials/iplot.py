@@ -12,7 +12,7 @@ import numpy as np
 
 output_notebook()
 
-__version__ = 2
+__version__ = 3
 
 
 def show(plot):
@@ -31,6 +31,7 @@ def create_figure(dframe, xvar, yvar, **kwargs):
         **kwargs: Option keyword arguments that control the plot, including:
             color: Optional name of the color variable.
             url: Optional name of the url variable.
+            url_raw: Boolean value. Is the url a raw link or a Wikipedia link.
             title: String giving the title of the plot.
             x_axis_label: String to label to the x-axis with.
             y_axis_label: String to label to the y-axis with.
@@ -42,10 +43,20 @@ def create_figure(dframe, xvar, yvar, **kwargs):
     cnames = list(set(dframe.columns) - set([xvar, yvar, kwargs['url']]))
     tooltips = [(x, "@{0:s}".format(x)) for x in cnames]
 
+    if 'color' not in kwargs:
+        kwargs['color'] = None
+    if 'url' not in kwargs:
+        kwargs['url'] = None
+    if 'url_raw' not in kwargs:
+        kwargs['url_raw'] = False
+    if 'title' not in kwargs:
+        kwargs['title'] = ""
     if 'x_axis_label' not in kwargs:
-        kwargs['x_axis_label'] = xvar
+        kwargs['y_axis_label'] = yvar
     if 'y_axis_label' not in kwargs:
         kwargs['y_axis_label'] = yvar
+    if 'nsizes' not in kwargs:
+        kwargs['nsizes'] = 30
 
     plot = figure(plot_width=950,
                   plot_height=600,
@@ -82,7 +93,10 @@ def create_figure(dframe, xvar, yvar, **kwargs):
 
     if kwargs['url'] is not None:
         taptool = plot.select(type=TapTool)
-        website_loc = "https://en.wikipedia.org/wiki/@{0:s}"
+        if kwargs['url_raw']:
+            website_loc = "@{0:s}"
+        else:
+            website_loc = "https://en.wikipedia.org/wiki/@{0:s}"
         url_string = website_loc.format(kwargs['url'])
         taptool.callback = OpenURL(url=url_string)
 
