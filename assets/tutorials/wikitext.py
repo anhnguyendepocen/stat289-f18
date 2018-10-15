@@ -14,6 +14,18 @@ __version__ = 2
 
 class WikiCorpus():
     """Class to describe a collection of Wikipedia pages.
+
+    Args:
+        links: A list of strings describing Wikipedia pages.
+        stopwords: Logical. Should stopwords be removed from the text?
+        num_topics: Number of topics to include in the LDA model.
+        num_clusters: Number of clusters to include in the output.
+        **kwargs: Additional parameters, including:
+            n_below: minimum number of times a word must occur to be in the
+                     lexicon. Default is 5.
+            n_above: maximum percentage of documents a word may occur in to
+                     be included in the lexicon. Default is 0.7.
+            iterations: number of iterations to perform in LDA. Default is 200.
     """
     def __init__(self, links, stopwords=True, num_topics=40, num_clusters=40,
                  **kwargs):
@@ -61,6 +73,13 @@ class WikiCorpus():
 
     def top_terms(self, docx, n_terms=10):
         """List of top terms for a document.
+
+        Args:
+            docx: Numeric id of the document.
+            n_terms: Number of terms to include. Default is 10.
+
+        Returns:
+            A list of terms.
         """
         tf_obj = self.tfidf[self.bow[docx]]
         output = []
@@ -70,6 +89,13 @@ class WikiCorpus():
 
     def most_similar(self, docx):
         """Get vector of most similar documents.
+
+        Args:
+            docx: Numeric id of the document.
+            n_terms: Number of terms to include. Default is 10.
+
+        Returns:
+            Numpy array of document similarities.
         """
         return self.matsim[self.tfidf[self.bow[docx]]]
 
@@ -90,6 +116,11 @@ class WikiCorpus():
 
 def wiki_text_explorer(wcorp, input_file=None, output_dir="text-explore"):
     """Produce visualization webpage.
+
+    Args:
+        input_file: Optional path to a json file that describes cluster and
+                    topic names.
+        output_dir: Directory name of where to build the explorer.
     """
     from xml.dom import minidom
     from xml.etree.ElementTree import tostring
@@ -109,33 +140,36 @@ def wiki_text_explorer(wcorp, input_file=None, output_dir="text-explore"):
     topic_names = name_dict['topic_names']
     clust_names = name_dict['clust_names']
 
-    if not os.path.exists(os.path.join(output_dir, 'index.html')):
-        with open(os.path.join(output_dir, 'index.html'), 'w') as fin:
-            xml_page = _get_index_page(wcorp, topic_names)
-            page = minidom.parseString(tostring(xml_page))
-            page = page.toprettyxml(indent=" ")
-            fin.write("<!DOCTYPE html>\n")
-            fin.write(page[23:])
-
-    with open(os.path.join(output_dir, 'docs.html'), 'w') as fin:
+    with open(os.path.join(output_dir, 'docs.html'), 'w',
+              encoding="UTF-8") as fin:
         xml_page = _get_doc_page(wcorp, topic_names, clust_names)
         page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
         fin.write("<!DOCTYPE html>\n")
         fin.write(page[23:])
 
-    with open(os.path.join(output_dir, 'clusters.html'), 'w') as fin:
+    with open(os.path.join(output_dir, 'index.html'), 'w',
+              encoding="UTF-8") as fin:
+        xml_page = _get_index_page()
+        page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
+        fin.write("<!DOCTYPE html>\n")
+        fin.write(page[23:])
+
+    with open(os.path.join(output_dir, 'clusters.html'), 'w',
+              encoding="UTF-8") as fin:
         xml_page = _get_cluster_page(wcorp, clust_names)
         page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
         fin.write("<!DOCTYPE html>\n")
         fin.write(page[23:])
 
-    with open(os.path.join(output_dir, 'topics.html'), 'w') as fin:
+    with open(os.path.join(output_dir, 'topics.html'), 'w',
+              encoding="UTF-8") as fin:
         xml_page = _get_topic_page(wcorp, topic_names)
         page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
         fin.write("<!DOCTYPE html>\n")
         fin.write(page[23:])
 
-    with open(os.path.join(output_dir, 'viz.html'), 'w') as fin:
+    with open(os.path.join(output_dir, 'viz.html'), 'w',
+              encoding="UTF-8") as fin:
         xml_page = _get_viz_page(wcorp, output_dir)
         page = minidom.parseString(tostring(xml_page)).toprettyxml(indent=" ")
         fin.write("<!DOCTYPE html>\n")
@@ -144,13 +178,22 @@ def wiki_text_explorer(wcorp, input_file=None, output_dir="text-explore"):
 
 def get_internal_links(data):
     """Extract internal Wikipedia links.
+
+    Args:
+        data: Either a string describing the name of a Wikipedia page or a
+              dictionary object already pulled with `wiki.get_wiki_json`.
+    Returns:
+        A dictionary with three elements: 'ilinks' (all of the internal links
+        for the page), 'ilinks_p' (links from the page found inside paragraph
+        tags), and 'ilinks_li' (links found inside list items). All links are
+        checked to make sure they actually exist.
     """
     from wiki import get_wiki_json
 
     if isinstance(data, str):
         data = get_wiki_json(data)
 
-    ilinks = [x['*'] for x in data['links'] if x['ns'] == 0]
+    ilinks = [x['*'] for x in data['links'] if x['ns'] == 0 and 'exists' in x]
     ilinks = [re.sub(' ', '_', x) for x in ilinks]
     tree = ET.fromstring(data['text']['*'])
 
@@ -528,7 +571,7 @@ def _add_topic_docs(xml_ul, vals, wcorp):
 
 
 def _get_viz_page(wcorp, output_dir):
-    """Create interactive plot pages.
+    """Create interactive plot page.
     """
     from bokeh.embed import components
     import iplot
@@ -581,8 +624,8 @@ def _get_viz_page(wcorp, output_dir):
     return xml_root
 
 
-def _get_index_page(wcorp, output_dir):
-    """Create interactive plot pages.
+def _get_index_page():
+    """Create index page.
     """
     xml_root, _ = _get_xml_head(headings=[])
     xml_body = xml_root.find(".//body")
@@ -599,7 +642,7 @@ def _get_index_page(wcorp, output_dir):
 
     elem = SubElement(elem, 'div', {'class': "col-lg-8",
                                     'style': "font-size: 16px; max-width:"
-                                             "600px" })
+                                             "600px"})
     elem_i = SubElement(elem, 'h1')
     elem_i.text = "Text Explorer"
     elem_i = SubElement(elem, 'p')
