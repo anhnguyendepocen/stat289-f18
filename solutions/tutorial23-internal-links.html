@@ -11830,7 +11830,7 @@ models and assess how well the perform on the dataset.</p>
 
     <div class="bk-root">
         <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="a364e292-eb1b-4a7c-8ab4-53c079583e54">Loading BokehJS ...</span>
+        <span id="942291ed-5409-46c3-95c5-3f2c0ab83b7e">Loading BokehJS ...</span>
     </div>
 </div>
 
@@ -11844,10 +11844,10 @@ models and assess how well the perform on the dataset.</p>
 
 
 
-<div id="5538034c-5557-4d0e-9463-b7940c86e1b4"></div>
+<div id="1537747e-763c-499e-af74-457a2e4fe933"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#5538034c-5557-4d0e-9463-b7940c86e1b4');
+var element = $('#1537747e-763c-499e-af74-457a2e4fe933');
 
 (function(root) {
   function now() {
@@ -12007,7 +12007,7 @@ var element = $('#5538034c-5557-4d0e-9463-b7940c86e1b4');
      "</div>"}};
 
   function display_loaded() {
-    var el = document.getElementById("a364e292-eb1b-4a7c-8ab4-53c079583e54");
+    var el = document.getElementById("942291ed-5409-46c3-95c5-3f2c0ab83b7e");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -12061,9 +12061,9 @@ var element = $('#5538034c-5557-4d0e-9463-b7940c86e1b4');
       console.log("Bokeh: injecting script tag for BokehJS library: ", url);
       document.getElementsByTagName("head")[0].appendChild(s);
     }
-  };var element = document.getElementById("a364e292-eb1b-4a7c-8ab4-53c079583e54");
+  };var element = document.getElementById("942291ed-5409-46c3-95c5-3f2c0ab83b7e");
   if (element == null) {
-    console.log("Bokeh: ERROR: autoload.js configured with elementid 'a364e292-eb1b-4a7c-8ab4-53c079583e54' but no matching script tag was found. ")
+    console.log("Bokeh: ERROR: autoload.js configured with elementid '942291ed-5409-46c3-95c5-3f2c0ab83b7e' but no matching script tag was found. ")
     return false;
   }
 
@@ -12100,7 +12100,7 @@ var element = $('#5538034c-5557-4d0e-9463-b7940c86e1b4');
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      var cell = $(document.getElementById("a364e292-eb1b-4a7c-8ab4-53c079583e54")).parents('.cell').data().cell;
+      var cell = $(document.getElementById("942291ed-5409-46c3-95c5-3f2c0ab83b7e")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
 
@@ -12392,11 +12392,11 @@ to you to figure how how to write this code).</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>num_sections:  a =      38.64, b =   19.0, err =   90711
-num_images  :  a =      69.87, b =   37.8, err =   76632
-num_elinks  :  a =     127.13, b =    7.0, err =   90621
-num_langs   :  a =      95.90, b =    9.4, err =   83561
-num_chars   :  a =   -2121.52, b =    0.2, err = 1043567
+<pre>num_sections:  a =      38.64, b =   19.0, err =   94047
+num_images  :  a =      75.08, b =   37.8, err =   79263
+num_elinks  :  a =     132.33, b =    7.0, err =   94168
+num_langs   :  a =      95.90, b =    9.4, err =   86372
+num_chars   :  a =   -2121.52, b =    0.2, err = 1058439
 </pre>
 </div>
 </div>
@@ -12472,8 +12472,8 @@ Something like this should work: <code>np.median(x[x &gt; alpha])</code>. Also, 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">splitreg_model_best_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="n">best_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">alpha</span><span class="p">])</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">])</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">alpha</span><span class="p">])</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">])</span>
         <span class="n">error</span> <span class="o">=</span> <span class="n">splitreg_model_eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">error</span> <span class="o">&lt;</span> <span class="n">best_params</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]:</span>
@@ -12532,11 +12532,11 @@ the method for doing this up to you).</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>num_sections:  alpha =     1.58 a = 376.00, b =  141.0, err = 129463
-num_images  :  alpha =     0.53 a = 385.00, b =   48.5, err = 153894
-num_elinks  :  alpha =     3.16 a = 394.50, b =  137.0, err = 135410
-num_langs   :  alpha =     3.72 a = 404.00, b =  136.0, err = 138000
-num_chars   :  alpha =  1406.90 a = 383.00, b =  187.0, err = 123911
+<pre>num_sections:  alpha =    18.96 a = 189.00, b =  678.0, err =  99621
+num_images  :  alpha =     4.24 a = 97.00, b =  508.5, err =  92836
+num_elinks  :  alpha =    34.76 a = 192.00, b =  672.0, err =  94227
+num_langs   :  alpha =    33.48 a = 193.00, b =  711.0, err =  90007
+num_chars   :  alpha =  22653.30 a = 232.00, b =  781.5, err =  98818
 </pre>
 </div>
 </div>
@@ -12602,8 +12602,8 @@ the same as <code>splitreg_model_best_params</code> with the new evaluation func
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">splitclass_model_best_params</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="n">best_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">alpha</span><span class="p">])</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">])</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">alpha</span><span class="p">])</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">])</span>
         <span class="n">error</span> <span class="o">=</span> <span class="n">splitclass_model_eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="n">error</span> <span class="o">&lt;</span> <span class="n">best_params</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]:</span>
@@ -12662,11 +12662,11 @@ the same as <code>splitreg_model_best_params</code> with the new evaluation func
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>num_sections:  alpha =     14.30 a = 1.00, b = 1.0, err = 0.2934
-num_images  :  alpha =      6.44 a = 1.00, b = 1.0, err = 0.2934
-num_elinks  :  alpha =     25.36 a = 1.00, b = 1.0, err = 0.2934
-num_langs   :  alpha =     31.69 a = 1.00, b = 1.0, err = 0.2934
-num_chars   :  alpha =  14685.98 a = 1.00, b = 1.0, err = 0.2934
+<pre>num_sections:  alpha =      7.99 a = 0.00, b = 1.0, err = 0.2972
+num_images  :  alpha =      2.21 a = 0.00, b = 1.0, err = 0.2642
+num_elinks  :  alpha =     12.73 a = 0.00, b = 1.0, err = 0.2712
+num_langs   :  alpha =     11.25 a = 0.00, b = 1.0, err = 0.1792
+num_chars   :  alpha =   4062.79 a = 0.00, b = 1.0, err = 0.2547
 </pre>
 </div>
 </div>
@@ -12744,11 +12744,11 @@ notice anything interesting.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>num_sections:  alpha =      0.10 a = 0.00, b = 0.0, err = 0.5355
-num_images  :  alpha =      0.10 a = 1.00, b = 0.0, err = 0.5599
-num_elinks  :  alpha =    240.11 a = 1.00, b = 0.0, err = 0.4694
-num_langs   :  alpha =    150.60 a = 1.00, b = 0.0, err = 0.4768
-num_chars   :  alpha =     79.10 a = 0.00, b = 0.0, err = 0.5355
+<pre>num_sections:  alpha =     11.15 a = 0.00, b = 1.0, err = 0.2854
+num_images  :  alpha =      5.38 a = 0.00, b = 1.0, err = 0.2406
+num_elinks  :  alpha =     34.84 a = 0.00, b = 1.0, err = 0.2877
+num_langs   :  alpha =     20.54 a = 0.00, b = 1.0, err = 0.1297
+num_chars   :  alpha =  18669.67 a = 0.00, b = 1.0, err = 0.3066
 </pre>
 </div>
 </div>
