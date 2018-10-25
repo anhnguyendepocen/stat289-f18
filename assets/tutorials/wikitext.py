@@ -6,7 +6,7 @@ import re
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Element, SubElement
 
-__version__ = 2
+__version__ = 3
 
 
 ###############################################################################
@@ -62,14 +62,20 @@ class WikiCorpus():
     def dense_tf(self):
         """Get a dense term frequency matrix.
         """
-        from gensim.models import matutils
-        return matutils.corpus2dense(self.bow, num_terms=self.lexicon.num_pos)
+        from gensim.matutils import corpus2dense
+        return corpus2dense(self.bow, num_terms=self.lexicon.num_pos)
 
     def sparse_tf(self):
         """Get a sparse (CSC) term frequency matrix.
         """
-        from gensim.models import matutils
-        return matutils.corpus2csc(self.bow)
+        from gensim.matutils import corpus2csc
+        return corpus2csc(self.bow)
+    
+    def terms(self):
+        """Return set of words for columns in term frequency matrix.
+        """
+        import numpy as np
+        return np.array(list(self.lexicon.token2id.keys()))
 
     def top_terms(self, docx, n_terms=10):
         """List of top terms for a document.
@@ -250,7 +256,8 @@ def _compute_meta_dataframe(links):
         meta['lat'] = lat
         meta['lon'] = lon
 
-    pdf = pd.DataFrame(meta).drop_duplicates(subset='link', keep="first")
+    # pdf = pd.DataFrame(meta).drop_duplicates(subset='link', keep="first")
+    pdf = pd.DataFrame(meta)
     return pdf.reset_index()
 
 
