@@ -52,7 +52,7 @@ def create_figure(dframe, xvar, yvar, **kwargs):
     if 'title' not in kwargs:
         kwargs['title'] = ""
     if 'x_axis_label' not in kwargs:
-        kwargs['y_axis_label'] = yvar
+        kwargs['x_axis_label'] = yvar
     if 'y_axis_label' not in kwargs:
         kwargs['y_axis_label'] = yvar
     if 'nsizes' not in kwargs:
