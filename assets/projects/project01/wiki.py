@@ -3,7 +3,7 @@ import os
 import re
 import requests
 import time
-import urllib
+import urllib.parse
 
 from os.path import join
 
@@ -49,13 +49,14 @@ def get_mediawiki_request(page_title, lang):
         A string giving the complete request URL.
     """
     page_title = re.sub(" ", "_", page_title)
-    page_title = urllib.parse.urlencode({'page': page_title})
-    page_title = re.sub('%2F', '/', page_title) # don't encode '/'
+    #page_title = urllib.parse.urlencode({'page': page_title})
+    #page_title = re.sub('%2F', '/', page_title) # don't encode '/'
+    page_title = urllib.parse.unquote(page_title)
     
     base_api_url = 'https://' + lang + '.wikipedia.org/w/api.php'
     default_query = 'action=parse&format=json&'
 
-    url = base_api_url + "?" + default_query + page_title
+    url = base_api_url + "?" + default_query + 'page=' + page_title
     return url
 
 
