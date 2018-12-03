@@ -15,8 +15,9 @@ meaningfully about concepts such as:
 - working with CSV data
 - building and using simple interactive graphics
 - the basic of coding with Python notes
-- hands-on knowledge of how to document, test, lint, and debug code
 - functions, for loops, if statements, and other Intro CS concepts
+- using regular expressions
+- hands-on knowledge of how to document, test, lint, and debug code
 - working with network data (vertices, degree, centrality measures, visualization)
 - building and evaluating basic predictive models
 - building and evaluating unsupervised learning models
@@ -24,7 +25,7 @@ meaningfully about concepts such as:
 - understanding the concepts behind neural networks
 - working with image data (displaying images, computing similarity scores)
 - parsing and manipulating HTML pages
-- **thinking critically about data and communicating your results**
+- **thinking critically about data and communicating the results**
 
 If, like many students taking an introductory course, what you wanted to get
 was a general hands-on understanding of the ideas I think you're now in great

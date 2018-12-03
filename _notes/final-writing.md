@@ -32,6 +32,6 @@ conclusions you have regarding something to do with the way that knowledge is
 structured on Wikipedia.
 
 One thing to keep in mind is that the audience of your writing should be
-someone reasonably familiar with your topic but familiar with our course
+someone reasonably familiar with your topic but unfamiliar with our course
 material. It should draw people into the website and encourage them to explore
 and confirm and/or challenge your conclusions.
