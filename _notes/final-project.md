@@ -10,6 +10,7 @@ short introductory essay. Here are links to the project sites:
 - [Aaqil Zakarya &mdash; Heads of State](https://AaqilZ.github.io/stat289)
 - [Alamby He &mdash; Nanjing](https://AlambyHe.github.io/math289)
 - [Anastasia Salnikova &mdash; Metro System](https://anastasiasalnikova1.github.io/stat289)
+- [Bowen Duan &mdash; ](https://addamduann.github.io/stat289)
 - [Colby Prokop &mdash; Climate Change](https://colbyprokop.github.io/stat289)
 - [David Qin &mdash; Programming Languages](https://davidq2010.github.io/stat289)
 - [Diksha Kataria &mdash; ](https://dikshakataria.github.io/stat289)
